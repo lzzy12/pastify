@@ -34,6 +34,24 @@ class S {
   String get TYPE_UIDAI {
     return Intl.message("UIDAI/Aadhar", name: 'TYPE_UIDAI');
   }
+
+  String get TYPE_CREDIT_CARD {
+    return Intl.message("Credit/Debit Card", name: 'TYPE_CREDIT_CARD');
+  }
+
+  String get copiedToClipboard {
+    return Intl.message("Copied to clipboard", name: 'copiedToClipboard');
+  }
+
+  String get noCardNumberValidation {
+    return Intl.message("No card number entered",
+        name: 'noCardNumberValidation');
+  }
+
+  String get cardInvalid {
+    return Intl.message("This card number is invalid, please recheck",
+        name: 'cardInvalid');
+  }
 }
 
 class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
@@ -42,6 +60,7 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
   List<Locale> get supportedLocales {
     return const <Locale>[
       Locale("en", ""),
+
     ];
   }
 

@@ -1,4 +1,8 @@
 {
   "APP_NAME": "Paster",
-  "TYPE_UIDAI": "UIDAI/Aadhar"
+  "TYPE_UIDAI": "UIDAI/Aadhar",
+  "TYPE_CREDIT_CARD": "Credit/Debit Card",
+  "copiedToClipboard": "Copied to clipboard",
+  "noCardNumberValidation": "No card number entered",
+  "cardInvalid": "This card number is invalid, please recheck"
 }

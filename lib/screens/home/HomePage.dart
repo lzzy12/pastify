@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:moor/moor.dart';
-import 'package:paster/common_widgets/error_occurred_widget.dart';
-import 'package:paster/common_widgets/uidai_tile.dart';
+import 'package:paster/common_widgets/widgets.dart';
 import 'package:paster/configs/configs.dart';
 import 'package:paster/models/data.dart';
 import 'package:paster/providers/data_provider.dart';
@@ -13,7 +12,15 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         actions: <Widget>[
-          IconButton(icon: Icon(Icons.add), onPressed: (){},),
+          IconButton(
+            icon: Icon(Icons.add),
+            onPressed: () {
+              showModalBottomSheet(
+                  context: context,
+                  builder: (ctx) => AddDataBottomModalSheet(),
+                  isScrollControlled: true);
+            },
+          ),
         ],
       ),
       body: Container(
@@ -24,16 +31,20 @@ class HomePage extends StatelessWidget {
             if (snapshot.connectionState == ConnectionState.none)
               return ErrorOccurredWidget();
             if (snapshot.connectionState == ConnectionState.waiting)
-              return Center(child: CircularProgressIndicator(),);
-            if (snapshot.hasError)
-              return ErrorOccurredWidget();
-            if (snapshot.connectionState == ConnectionState.active || snapshot.connectionState == ConnectionState.done) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            if (snapshot.hasError) return ErrorOccurredWidget();
+            if (snapshot.connectionState == ConnectionState.active ||
+                snapshot.connectionState == ConnectionState.done) {
               final data = snapshot.data;
               return ListView.separated(
                 itemBuilder: (ctx, i) {
-                  if (data[i] is UIDAIData)
-                    return UIDAITile(data[i]);
-                  return null;
+                  if (data[i] is UIDAIData) return UIDAITile(data[i]);
+                  if (data[i] is BankCardData) {
+                    return CreditCardTile(data[i]);
+                  }
+                  return Text('Unsupported data');
                 },
                 itemCount: snapshot.data.length,
                 separatorBuilder: (ctx, i) {

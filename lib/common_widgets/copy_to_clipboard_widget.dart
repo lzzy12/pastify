@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:paster/generated/i18n.dart';
 
 class CopyToClipBoardWidget extends StatefulWidget {
   final String data;
@@ -32,7 +33,7 @@ class _CopyToClipBoardWidgetState extends State<CopyToClipBoardWidget> {
         await Clipboard.setData(ClipboardData(text: widget.data));
         Scaffold.of(context).showSnackBar(
           SnackBar(
-            content: Text('Copied to clipboard'),
+            content: Text(S.of(context).copiedToClipboard),
             duration: Duration(seconds: 3),
           ),
         );
