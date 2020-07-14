@@ -8,17 +8,18 @@ part of 'data.dart';
 
 // ignore_for_file: unnecessary_brace_in_string_interps, unnecessary_this
 class UIDAIData extends DataClass implements Insertable<UIDAIData> {
-  final int id;
+  final String id;
   final String uidaiNumber;
   final String name;
+
   UIDAIData({@required this.id, @required this.uidaiNumber, this.name});
+
   factory UIDAIData.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
-    final intType = db.typeSystem.forDartType<int>();
     final stringType = db.typeSystem.forDartType<String>();
     return UIDAIData(
-      id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      id: stringType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       uidaiNumber:
           stringType.mapFromDatabaseResponse(data['${effectivePrefix}uidai']),
       name: stringType.mapFromDatabaseResponse(data['${effectivePrefix}name']),
@@ -28,7 +29,7 @@ class UIDAIData extends DataClass implements Insertable<UIDAIData> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (!nullToAbsent || id != null) {
-      map['id'] = Variable<int>(id);
+      map['id'] = Variable<String>(id);
     }
     if (!nullToAbsent || uidaiNumber != null) {
       map['uidai'] = Variable<String>(uidaiNumber);
@@ -53,7 +54,7 @@ class UIDAIData extends DataClass implements Insertable<UIDAIData> {
       {ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return UIDAIData(
-      id: serializer.fromJson<int>(json['id']),
+      id: serializer.fromJson<String>(json['id']),
       uidaiNumber: serializer.fromJson<String>(json['uidaiNumber']),
       name: serializer.fromJson<String>(json['name']),
     );
@@ -62,23 +63,24 @@ class UIDAIData extends DataClass implements Insertable<UIDAIData> {
   Map<String, dynamic> toJson({ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
+      'id': serializer.toJson<String>(id),
       'uidaiNumber': serializer.toJson<String>(uidaiNumber),
       'name': serializer.toJson<String>(name),
     };
   }
 
-  UIDAIData copyWith({int id, String uidaiNumber, String name}) => UIDAIData(
+  UIDAIData copyWith({String id, String uidaiNumber, String name}) =>
+      UIDAIData(
         id: id ?? this.id,
         uidaiNumber: uidaiNumber ?? this.uidaiNumber,
         name: name ?? this.name,
       );
+
   @override
   String toString() {
     return (StringBuffer('UIDAIData(')
-          ..write('id: $id, ')
-          ..write('uidaiNumber: $uidaiNumber, ')
-          ..write('name: $name')
+      ..write('id: $id, ')..write('uidaiNumber: $uidaiNumber, ')..write(
+          'name: $name')
           ..write(')'))
         .toString();
   }
@@ -96,21 +98,23 @@ class UIDAIData extends DataClass implements Insertable<UIDAIData> {
 }
 
 class UIDAICompanion extends UpdateCompanion<UIDAIData> {
-  final Value<int> id;
+  final Value<String> id;
   final Value<String> uidaiNumber;
   final Value<String> name;
+
   const UIDAICompanion({
     this.id = const Value.absent(),
     this.uidaiNumber = const Value.absent(),
     this.name = const Value.absent(),
   });
+
   UIDAICompanion.insert({
     this.id = const Value.absent(),
     @required String uidaiNumber,
     this.name = const Value.absent(),
   }) : uidaiNumber = Value(uidaiNumber);
   static Insertable<UIDAIData> custom({
-    Expression<int> id,
+    Expression<String> id,
     Expression<String> uidaiNumber,
     Expression<String> name,
   }) {
@@ -122,7 +126,7 @@ class UIDAICompanion extends UpdateCompanion<UIDAIData> {
   }
 
   UIDAICompanion copyWith(
-      {Value<int> id, Value<String> uidaiNumber, Value<String> name}) {
+      {Value<String> id, Value<String> uidaiNumber, Value<String> name}) {
     return UIDAICompanion(
       id: id ?? this.id,
       uidaiNumber: uidaiNumber ?? this.uidaiNumber,
@@ -134,7 +138,7 @@ class UIDAICompanion extends UpdateCompanion<UIDAIData> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (id.present) {
-      map['id'] = Variable<int>(id.value);
+      map['id'] = Variable<String>(id.value);
     }
     if (uidaiNumber.present) {
       map['uidai'] = Variable<String>(uidaiNumber.value);
@@ -159,22 +163,32 @@ class UIDAICompanion extends UpdateCompanion<UIDAIData> {
 class $UIDAITable extends UIDAI with TableInfo<$UIDAITable, UIDAIData> {
   final GeneratedDatabase _db;
   final String _alias;
+
   $UIDAITable(this._db, [this._alias]);
+
   final VerificationMeta _idMeta = const VerificationMeta('id');
-  GeneratedIntColumn _id;
+  GeneratedTextColumn _id;
+
   @override
-  GeneratedIntColumn get id => _id ??= _constructId();
-  GeneratedIntColumn _constructId() {
-    return GeneratedIntColumn('id', $tableName, false,
-        hasAutoIncrement: true, declaredAsPrimaryKey: true);
+  GeneratedTextColumn get id => _id ??= _constructId();
+
+  GeneratedTextColumn _constructId() {
+    return GeneratedTextColumn(
+      'id',
+      $tableName,
+      false,
+    )
+      ..clientDefault = () => Uuid().v4();
   }
 
   final VerificationMeta _uidaiNumberMeta =
-      const VerificationMeta('uidaiNumber');
+  const VerificationMeta('uidaiNumber');
   GeneratedTextColumn _uidaiNumber;
+
   @override
   GeneratedTextColumn get uidaiNumber =>
       _uidaiNumber ??= _constructUidaiNumber();
+
   GeneratedTextColumn _constructUidaiNumber() {
     return GeneratedTextColumn(
       'uidai',
@@ -225,7 +239,7 @@ class $UIDAITable extends UIDAI with TableInfo<$UIDAITable, UIDAIData> {
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => {id};
+  Set<GeneratedColumn> get $primaryKey => <GeneratedColumn>{};
   @override
   UIDAIData map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
@@ -239,17 +253,18 @@ class $UIDAITable extends UIDAI with TableInfo<$UIDAITable, UIDAIData> {
 }
 
 class PANCardData extends DataClass implements Insertable<PANCardData> {
-  final int id;
+  final String id;
   final String panCard;
   final String holderName;
+
   PANCardData({@required this.id, @required this.panCard, this.holderName});
+
   factory PANCardData.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
-    final intType = db.typeSystem.forDartType<int>();
     final stringType = db.typeSystem.forDartType<String>();
     return PANCardData(
-      id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      id: stringType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       panCard: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}pan_card_number']),
       holderName: stringType
@@ -260,7 +275,7 @@ class PANCardData extends DataClass implements Insertable<PANCardData> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (!nullToAbsent || id != null) {
-      map['id'] = Variable<int>(id);
+      map['id'] = Variable<String>(id);
     }
     if (!nullToAbsent || panCard != null) {
       map['pan_card_number'] = Variable<String>(panCard);
@@ -287,7 +302,7 @@ class PANCardData extends DataClass implements Insertable<PANCardData> {
       {ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return PANCardData(
-      id: serializer.fromJson<int>(json['id']),
+      id: serializer.fromJson<String>(json['id']),
       panCard: serializer.fromJson<String>(json['panCard']),
       holderName: serializer.fromJson<String>(json['holderName']),
     );
@@ -296,23 +311,23 @@ class PANCardData extends DataClass implements Insertable<PANCardData> {
   Map<String, dynamic> toJson({ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
+      'id': serializer.toJson<String>(id),
       'panCard': serializer.toJson<String>(panCard),
       'holderName': serializer.toJson<String>(holderName),
     };
   }
 
-  PANCardData copyWith({int id, String panCard, String holderName}) =>
+  PANCardData copyWith({String id, String panCard, String holderName}) =>
       PANCardData(
         id: id ?? this.id,
         panCard: panCard ?? this.panCard,
         holderName: holderName ?? this.holderName,
       );
+
   @override
   String toString() {
     return (StringBuffer('PANCardData(')
-          ..write('id: $id, ')
-          ..write('panCard: $panCard, ')
+      ..write('id: $id, ')..write('panCard: $panCard, ')
           ..write('holderName: $holderName')
           ..write(')'))
         .toString();
@@ -331,21 +346,23 @@ class PANCardData extends DataClass implements Insertable<PANCardData> {
 }
 
 class PANCardCompanion extends UpdateCompanion<PANCardData> {
-  final Value<int> id;
+  final Value<String> id;
   final Value<String> panCard;
   final Value<String> holderName;
+
   const PANCardCompanion({
     this.id = const Value.absent(),
     this.panCard = const Value.absent(),
     this.holderName = const Value.absent(),
   });
+
   PANCardCompanion.insert({
     this.id = const Value.absent(),
     @required String panCard,
     this.holderName = const Value.absent(),
   }) : panCard = Value(panCard);
   static Insertable<PANCardData> custom({
-    Expression<int> id,
+    Expression<String> id,
     Expression<String> panCard,
     Expression<String> holderName,
   }) {
@@ -357,7 +374,7 @@ class PANCardCompanion extends UpdateCompanion<PANCardData> {
   }
 
   PANCardCompanion copyWith(
-      {Value<int> id, Value<String> panCard, Value<String> holderName}) {
+      {Value<String> id, Value<String> panCard, Value<String> holderName}) {
     return PANCardCompanion(
       id: id ?? this.id,
       panCard: panCard ?? this.panCard,
@@ -369,7 +386,7 @@ class PANCardCompanion extends UpdateCompanion<PANCardData> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (id.present) {
-      map['id'] = Variable<int>(id.value);
+      map['id'] = Variable<String>(id.value);
     }
     if (panCard.present) {
       map['pan_card_number'] = Variable<String>(panCard.value);
@@ -394,20 +411,30 @@ class PANCardCompanion extends UpdateCompanion<PANCardData> {
 class $PANCardTable extends PANCard with TableInfo<$PANCardTable, PANCardData> {
   final GeneratedDatabase _db;
   final String _alias;
+
   $PANCardTable(this._db, [this._alias]);
+
   final VerificationMeta _idMeta = const VerificationMeta('id');
-  GeneratedIntColumn _id;
+  GeneratedTextColumn _id;
+
   @override
-  GeneratedIntColumn get id => _id ??= _constructId();
-  GeneratedIntColumn _constructId() {
-    return GeneratedIntColumn('id', $tableName, false,
-        hasAutoIncrement: true, declaredAsPrimaryKey: true);
+  GeneratedTextColumn get id => _id ??= _constructId();
+
+  GeneratedTextColumn _constructId() {
+    return GeneratedTextColumn(
+      'id',
+      $tableName,
+      false,
+    )
+      ..clientDefault = () => Uuid().v4();
   }
 
   final VerificationMeta _panCardMeta = const VerificationMeta('panCard');
   GeneratedTextColumn _panCard;
+
   @override
   GeneratedTextColumn get panCard => _panCard ??= _constructPanCard();
+
   GeneratedTextColumn _constructPanCard() {
     return GeneratedTextColumn(
       'pan_card_number',
@@ -460,7 +487,7 @@ class $PANCardTable extends PANCard with TableInfo<$PANCardTable, PANCardData> {
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => {id};
+  Set<GeneratedColumn> get $primaryKey => <GeneratedColumn>{};
   @override
   PANCardData map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
@@ -474,27 +501,26 @@ class $PANCardTable extends PANCard with TableInfo<$PANCardTable, PANCardData> {
 }
 
 class BankCardData extends DataClass implements Insertable<BankCardData> {
-  final int id;
+  final String id;
   final String cardNumber;
   final String cvv;
-  final DateTime expiryDate;
-  BankCardData(
-      {@required this.id,
-      @required this.cardNumber,
-      this.cvv,
-      this.expiryDate});
+  final String expiryDate;
+
+  BankCardData({@required this.id,
+    @required this.cardNumber,
+    this.cvv,
+    this.expiryDate});
+
   factory BankCardData.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
-    final intType = db.typeSystem.forDartType<int>();
     final stringType = db.typeSystem.forDartType<String>();
-    final dateTimeType = db.typeSystem.forDartType<DateTime>();
     return BankCardData(
-      id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      id: stringType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       cardNumber: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}card_number']),
       cvv: stringType.mapFromDatabaseResponse(data['${effectivePrefix}cvv']),
-      expiryDate: dateTimeType
+      expiryDate: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}expiry_date']),
     );
   }
@@ -502,7 +528,7 @@ class BankCardData extends DataClass implements Insertable<BankCardData> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (!nullToAbsent || id != null) {
-      map['id'] = Variable<int>(id);
+      map['id'] = Variable<String>(id);
     }
     if (!nullToAbsent || cardNumber != null) {
       map['card_number'] = Variable<String>(cardNumber);
@@ -511,7 +537,7 @@ class BankCardData extends DataClass implements Insertable<BankCardData> {
       map['cvv'] = Variable<String>(cvv);
     }
     if (!nullToAbsent || expiryDate != null) {
-      map['expiry_date'] = Variable<DateTime>(expiryDate);
+      map['expiry_date'] = Variable<String>(expiryDate);
     }
     return map;
   }
@@ -533,35 +559,36 @@ class BankCardData extends DataClass implements Insertable<BankCardData> {
       {ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return BankCardData(
-      id: serializer.fromJson<int>(json['id']),
+      id: serializer.fromJson<String>(json['id']),
       cardNumber: serializer.fromJson<String>(json['cardNumber']),
       cvv: serializer.fromJson<String>(json['cvv']),
-      expiryDate: serializer.fromJson<DateTime>(json['expiryDate']),
+      expiryDate: serializer.fromJson<String>(json['expiryDate']),
     );
   }
   @override
   Map<String, dynamic> toJson({ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
+      'id': serializer.toJson<String>(id),
       'cardNumber': serializer.toJson<String>(cardNumber),
       'cvv': serializer.toJson<String>(cvv),
-      'expiryDate': serializer.toJson<DateTime>(expiryDate),
+      'expiryDate': serializer.toJson<String>(expiryDate),
     };
   }
 
   BankCardData copyWith(
-          {int id, String cardNumber, String cvv, DateTime expiryDate}) =>
+      {String id, String cardNumber, String cvv, String expiryDate}) =>
       BankCardData(
         id: id ?? this.id,
         cardNumber: cardNumber ?? this.cardNumber,
         cvv: cvv ?? this.cvv,
         expiryDate: expiryDate ?? this.expiryDate,
       );
+
   @override
   String toString() {
     return (StringBuffer('BankCardData(')
-          ..write('id: $id, ')
+      ..write('id: $id, ')
           ..write('cardNumber: $cardNumber, ')
           ..write('cvv: $cvv, ')
           ..write('expiryDate: $expiryDate')
@@ -583,16 +610,18 @@ class BankCardData extends DataClass implements Insertable<BankCardData> {
 }
 
 class BankCardCompanion extends UpdateCompanion<BankCardData> {
-  final Value<int> id;
+  final Value<String> id;
   final Value<String> cardNumber;
   final Value<String> cvv;
-  final Value<DateTime> expiryDate;
+  final Value<String> expiryDate;
+
   const BankCardCompanion({
     this.id = const Value.absent(),
     this.cardNumber = const Value.absent(),
     this.cvv = const Value.absent(),
     this.expiryDate = const Value.absent(),
   });
+
   BankCardCompanion.insert({
     this.id = const Value.absent(),
     @required String cardNumber,
@@ -600,10 +629,10 @@ class BankCardCompanion extends UpdateCompanion<BankCardData> {
     this.expiryDate = const Value.absent(),
   }) : cardNumber = Value(cardNumber);
   static Insertable<BankCardData> custom({
-    Expression<int> id,
+    Expression<String> id,
     Expression<String> cardNumber,
     Expression<String> cvv,
-    Expression<DateTime> expiryDate,
+    Expression<String> expiryDate,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -613,11 +642,10 @@ class BankCardCompanion extends UpdateCompanion<BankCardData> {
     });
   }
 
-  BankCardCompanion copyWith(
-      {Value<int> id,
-      Value<String> cardNumber,
-      Value<String> cvv,
-      Value<DateTime> expiryDate}) {
+  BankCardCompanion copyWith({Value<String> id,
+    Value<String> cardNumber,
+    Value<String> cvv,
+    Value<String> expiryDate}) {
     return BankCardCompanion(
       id: id ?? this.id,
       cardNumber: cardNumber ?? this.cardNumber,
@@ -630,7 +658,7 @@ class BankCardCompanion extends UpdateCompanion<BankCardData> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (id.present) {
-      map['id'] = Variable<int>(id.value);
+      map['id'] = Variable<String>(id.value);
     }
     if (cardNumber.present) {
       map['card_number'] = Variable<String>(cardNumber.value);
@@ -639,7 +667,7 @@ class BankCardCompanion extends UpdateCompanion<BankCardData> {
       map['cvv'] = Variable<String>(cvv.value);
     }
     if (expiryDate.present) {
-      map['expiry_date'] = Variable<DateTime>(expiryDate.value);
+      map['expiry_date'] = Variable<String>(expiryDate.value);
     }
     return map;
   }
@@ -660,20 +688,30 @@ class $BankCardTable extends BankCard
     with TableInfo<$BankCardTable, BankCardData> {
   final GeneratedDatabase _db;
   final String _alias;
+
   $BankCardTable(this._db, [this._alias]);
+
   final VerificationMeta _idMeta = const VerificationMeta('id');
-  GeneratedIntColumn _id;
+  GeneratedTextColumn _id;
+
   @override
-  GeneratedIntColumn get id => _id ??= _constructId();
-  GeneratedIntColumn _constructId() {
-    return GeneratedIntColumn('id', $tableName, false,
-        hasAutoIncrement: true, declaredAsPrimaryKey: true);
+  GeneratedTextColumn get id => _id ??= _constructId();
+
+  GeneratedTextColumn _constructId() {
+    return GeneratedTextColumn(
+      'id',
+      $tableName,
+      false,
+    )
+      ..clientDefault = () => Uuid().v4();
   }
 
   final VerificationMeta _cardNumberMeta = const VerificationMeta('cardNumber');
   GeneratedTextColumn _cardNumber;
+
   @override
   GeneratedTextColumn get cardNumber => _cardNumber ??= _constructCardNumber();
+
   GeneratedTextColumn _constructCardNumber() {
     return GeneratedTextColumn(
       'card_number',
@@ -686,6 +724,7 @@ class $BankCardTable extends BankCard
   GeneratedTextColumn _cvv;
   @override
   GeneratedTextColumn get cvv => _cvv ??= _constructCvv();
+
   GeneratedTextColumn _constructCvv() {
     return GeneratedTextColumn(
       'cvv',
@@ -695,12 +734,13 @@ class $BankCardTable extends BankCard
   }
 
   final VerificationMeta _expiryDateMeta = const VerificationMeta('expiryDate');
-  GeneratedDateTimeColumn _expiryDate;
+  GeneratedTextColumn _expiryDate;
+
   @override
-  GeneratedDateTimeColumn get expiryDate =>
-      _expiryDate ??= _constructExpiryDate();
-  GeneratedDateTimeColumn _constructExpiryDate() {
-    return GeneratedDateTimeColumn(
+  GeneratedTextColumn get expiryDate => _expiryDate ??= _constructExpiryDate();
+
+  GeneratedTextColumn _constructExpiryDate() {
+    return GeneratedTextColumn(
       'expiry_date',
       $tableName,
       true,
@@ -709,6 +749,7 @@ class $BankCardTable extends BankCard
 
   @override
   List<GeneratedColumn> get $columns => [id, cardNumber, cvv, expiryDate];
+
   @override
   $BankCardTable get asDslTable => this;
   @override
@@ -745,7 +786,7 @@ class $BankCardTable extends BankCard
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => {id};
+  Set<GeneratedColumn> get $primaryKey => <GeneratedColumn>{};
   @override
   BankCardData map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
@@ -759,16 +800,17 @@ class $BankCardTable extends BankCard
 }
 
 class OtherData extends DataClass implements Insertable<OtherData> {
-  final int id;
+  final String id;
   final String data;
+
   OtherData({@required this.id, @required this.data});
+
   factory OtherData.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
-    final intType = db.typeSystem.forDartType<int>();
     final stringType = db.typeSystem.forDartType<String>();
     return OtherData(
-      id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      id: stringType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       data: stringType.mapFromDatabaseResponse(data['${effectivePrefix}data']),
     );
   }
@@ -776,7 +818,7 @@ class OtherData extends DataClass implements Insertable<OtherData> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (!nullToAbsent || id != null) {
-      map['id'] = Variable<int>(id);
+      map['id'] = Variable<String>(id);
     }
     if (!nullToAbsent || data != null) {
       map['data'] = Variable<String>(data);
@@ -795,7 +837,7 @@ class OtherData extends DataClass implements Insertable<OtherData> {
       {ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return OtherData(
-      id: serializer.fromJson<int>(json['id']),
+      id: serializer.fromJson<String>(json['id']),
       data: serializer.fromJson<String>(json['data']),
     );
   }
@@ -803,21 +845,21 @@ class OtherData extends DataClass implements Insertable<OtherData> {
   Map<String, dynamic> toJson({ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
+      'id': serializer.toJson<String>(id),
       'data': serializer.toJson<String>(data),
     };
   }
 
-  OtherData copyWith({int id, String data}) => OtherData(
+  OtherData copyWith({String id, String data}) =>
+      OtherData(
         id: id ?? this.id,
         data: data ?? this.data,
       );
+
   @override
   String toString() {
     return (StringBuffer('OtherData(')
-          ..write('id: $id, ')
-          ..write('data: $data')
-          ..write(')'))
+      ..write('id: $id, ')..write('data: $data')..write(')'))
         .toString();
   }
 
@@ -830,18 +872,21 @@ class OtherData extends DataClass implements Insertable<OtherData> {
 }
 
 class OtherCompanion extends UpdateCompanion<OtherData> {
-  final Value<int> id;
+  final Value<String> id;
   final Value<String> data;
+
   const OtherCompanion({
     this.id = const Value.absent(),
     this.data = const Value.absent(),
   });
+
   OtherCompanion.insert({
     this.id = const Value.absent(),
     @required String data,
   }) : data = Value(data);
+
   static Insertable<OtherData> custom({
-    Expression<int> id,
+    Expression<String> id,
     Expression<String> data,
   }) {
     return RawValuesInsertable({
@@ -850,7 +895,7 @@ class OtherCompanion extends UpdateCompanion<OtherData> {
     });
   }
 
-  OtherCompanion copyWith({Value<int> id, Value<String> data}) {
+  OtherCompanion copyWith({Value<String> id, Value<String> data}) {
     return OtherCompanion(
       id: id ?? this.id,
       data: data ?? this.data,
@@ -861,7 +906,7 @@ class OtherCompanion extends UpdateCompanion<OtherData> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (id.present) {
-      map['id'] = Variable<int>(id.value);
+      map['id'] = Variable<String>(id.value);
     }
     if (data.present) {
       map['data'] = Variable<String>(data.value);
@@ -882,20 +927,30 @@ class OtherCompanion extends UpdateCompanion<OtherData> {
 class $OtherTable extends Other with TableInfo<$OtherTable, OtherData> {
   final GeneratedDatabase _db;
   final String _alias;
+
   $OtherTable(this._db, [this._alias]);
+
   final VerificationMeta _idMeta = const VerificationMeta('id');
-  GeneratedIntColumn _id;
+  GeneratedTextColumn _id;
+
   @override
-  GeneratedIntColumn get id => _id ??= _constructId();
-  GeneratedIntColumn _constructId() {
-    return GeneratedIntColumn('id', $tableName, false,
-        hasAutoIncrement: true, declaredAsPrimaryKey: true);
+  GeneratedTextColumn get id => _id ??= _constructId();
+
+  GeneratedTextColumn _constructId() {
+    return GeneratedTextColumn(
+      'id',
+      $tableName,
+      false,
+    )
+      ..clientDefault = () => Uuid().v4();
   }
 
   final VerificationMeta _dataMeta = const VerificationMeta('data');
   GeneratedTextColumn _data;
+
   @override
   GeneratedTextColumn get data => _data ??= _constructData();
+
   GeneratedTextColumn _constructData() {
     return GeneratedTextColumn(
       'data',
@@ -930,7 +985,7 @@ class $OtherTable extends Other with TableInfo<$OtherTable, OtherData> {
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => {id};
+  Set<GeneratedColumn> get $primaryKey => <GeneratedColumn>{};
   @override
   OtherData map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;

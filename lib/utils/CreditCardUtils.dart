@@ -94,12 +94,15 @@ abstract class _LengthBasedSpaceFormatter extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(
       TextEditingValue oldValue, TextEditingValue newValue) {
+    if (newValue.selection.baseOffset == 0) {
+      return newValue;
+    }
     final newText = newValue.text;
     final buffer = StringBuffer();
     for (int i = 0; i < newText.length; i++) {
       buffer.write(newText[i]);
       final nonZeroIndex = i + 1;
-      if (length % 4 == 0 && nonZeroIndex != newText.length) {
+      if (nonZeroIndex % length == 0 && nonZeroIndex != newText.length) {
         buffer.write(replace);
       }
     }

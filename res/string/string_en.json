@@ -4,5 +4,13 @@
   "TYPE_CREDIT_CARD": "Credit/Debit Card",
   "copiedToClipboard": "Copied to clipboard",
   "noCardNumberValidation": "No card number entered",
-  "cardInvalid": "This card number is invalid, please recheck"
+  "cardInvalid": "This card number is invalid, please recheck",
+  "uidaiFieldEmpty": "This field is required",
+  "uidaiInvalidValidation": "Invalid UIDAI",
+  "uidaiHintText": "Your UIDAI/AADHAR card number here",
+  "nameFieldHint": "Enter name of the card holder (optional)",
+  "cvvHintText": "CVV",
+  "expiryHintText": "Expiry date",
+  "save": "Save",
+  "cardHolderName": "Card Holder name"
 }

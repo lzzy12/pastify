@@ -44,14 +44,50 @@ class S {
   }
 
   String get noCardNumberValidation {
-    return Intl.message("No card number entered",
-        name: 'noCardNumberValidation');
+    return Intl.message(
+        "No card number entered", name: 'noCardNumberValidation');
   }
 
   String get cardInvalid {
-    return Intl.message("This card number is invalid, please recheck",
-        name: 'cardInvalid');
+    return Intl.message(
+        "This card number is invalid, please recheck", name: 'cardInvalid');
   }
+
+  String get uidaiFieldEmpty {
+    return Intl.message("This field is required", name: 'uidaiFieldEmpty');
+  }
+
+  String get uidaiInvalidValidation {
+    return Intl.message("Invalid UIDAI", name: 'uidaiInvalidValidation');
+  }
+
+  String get uidaiHintText {
+    return Intl.message(
+        "Your UIDAI/AADHAR card number here", name: 'uidaiHintText');
+  }
+
+  String get nameFieldHint {
+    return Intl.message(
+        "Enter name of the card holder (optional)", name: 'nameFieldHint');
+  }
+
+  String get cvvHintText {
+    return Intl.message("CVV", name: 'cvvHintText');
+  }
+
+  String get expiryHintText {
+    return Intl.message("Expiry date", name: 'expiryHintText');
+  }
+
+  String get save {
+    return Intl.message("Save", name: 'save');
+  }
+
+  String get cardHolderName {
+    return Intl.message("Card Holder name", name: 'cardHolderName');
+  }
+
+
 }
 
 class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {

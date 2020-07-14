@@ -22,8 +22,21 @@ class $en extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage("No card number entered"),
     "cardInvalid": MessageLookupByLibrary.simpleMessage(
         "This card number is invalid, please recheck"),
+    "uidaiFieldEmpty":
+        MessageLookupByLibrary.simpleMessage("This field is required"),
+    "uidaiInvalidValidation":
+        MessageLookupByLibrary.simpleMessage("Invalid UIDAI"),
+    "uidaiHintText": MessageLookupByLibrary.simpleMessage(
+        "Your UIDAI/AADHAR card number here"),
+    "nameFieldHint": MessageLookupByLibrary.simpleMessage(
+        "Enter name of the card holder (optional)"),
+    "cvvHintText": MessageLookupByLibrary.simpleMessage("CVV"),
+    "expiryHintText": MessageLookupByLibrary.simpleMessage("Expiry date"),
+    "save": MessageLookupByLibrary.simpleMessage("Save"),
+    "cardHolderName": MessageLookupByLibrary.simpleMessage("Card Holder name"),
   };
 }
+
 
 
 typedef Future<dynamic> LibraryLoader();

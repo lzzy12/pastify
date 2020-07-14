@@ -1,16 +1,15 @@
 import 'dart:io';
-import 'package:async/async.dart' show StreamZip;
 import 'package:moor/moor.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:moor_ffi/moor_ffi.dart';
-
+import 'package:uuid/uuid.dart';
 part 'data.g.dart';
 
 enum SupportedTypes { uidai, pan, card, others }
 
 class Data extends Table {
-  IntColumn get id => integer().autoIncrement()();
+  TextColumn get id => text().clientDefault(() => Uuid().v4())();
 }
 
 class UIDAI extends Data {
@@ -30,7 +29,7 @@ class BankCard extends Data {
 
   TextColumn get cvv => text().nullable()();
 
-  DateTimeColumn get expiryDate => dateTime().nullable().named('expiry_date')();
+  TextColumn get expiryDate => text().nullable().named('expiry_date')();
 }
 
 class Other extends Data {
@@ -47,44 +46,56 @@ LazyDatabase _openConnection() {
 
 @UseMoor(tables: [UIDAI, PANCard, BankCard, Other])
 class AppDatabase extends _$AppDatabase {
+  static final AppDatabase _instance = AppDatabase._internal();
+
+  AppDatabase._internal() : super(_openConnection());
+
+  factory AppDatabase() {
+    return _instance;
+  }
+
   int get schemaVersion => 1;
 
-  AppDatabase() : super(_openConnection());
-
-  T _getStatement<T>(DataClass data, T statement(TableInfo table)) {
-    if (data is UIDAIData) return statement(uidai);
-    if (data is PANCardData) return statement(pANCard);
-    if (data is BankCardData) return statement(bankCard);
+  T _getStatement<T>(UpdateCompanion data, T statement(TableInfo table)) {
+    if (data is UIDAICompanion) return statement(uidai);
+    if (data is PANCardCompanion) return statement(pANCard);
+    if (data is BankCardCompanion) return statement(bankCard);
     return statement(other);
   }
 
-
-  Future<int> add( data) {
+  Future<int> add(UpdateCompanion data) {
     // @returns generated id
-    return _getStatement<InsertStatement>(data, into)
-        .insert(data.toCompanion());
+    return _getStatement<InsertStatement>(data, into).insert(data);
   }
 
-  Future<bool> updateData(data) {
+  Future<bool> updateData(UpdateCompanion data) {
     return _getStatement<UpdateStatement>(data, update).replace(data);
   }
 
-  Future<void> deleteData(data) {
+  Future<void> deleteData(UpdateCompanion data) {
     var table;
-    if (data is UIDAIData) table = uidai;
-    if (data is PANCardData) table = pANCard;
-    if (data is BankCardData) table = bankCard;
-    if (data is OtherData) table = other;
+    if (data is UIDAICompanion) table = uidai;
+    if (data is PANCardCompanion) table = pANCard;
+    if (data is BankCardCompanion) table = bankCard;
+    if (data is OtherCompanion) table = other;
     return (_getStatement<DeleteStatement>(data, delete)
-          ..where((tbl) => table.id.equals(data.id)))
+          ..where((tbl) => table.id.equals((data as dynamic).id.value)))
         .go();
   }
 
-  Stream getAll(){
-    final List<Stream<List<DataClass>>> s = <Stream<List<DataClass>>>[];
-    for (var table in allSchemaEntities){
-      s.add(select(table).watch());
-    }
-    return StreamZip(s);
+  Stream<List<UIDAIData>> get uidaiStream {
+    return select(uidai).watch();
+  }
+
+  Stream<List<PANCardData>> get panStream {
+    return select(pANCard).watch();
+  }
+
+  Stream<List<BankCardData>> get bankCardStream {
+    return select(bankCard).watch();
+  }
+
+  Stream<List<OtherData>> get otherStream {
+    return select(other).watch();
   }
 }

@@ -15,10 +15,12 @@ dependencies:
   provider: ^4.3.1
   moor: ^3.2.0
   moor_ffi: ^0.7.0
-  async:
   path_provider: ^1.6.11
+  flutter_hooks: ^0.11.0
+  async: any
   intl:
   path:
+  uuid: ^2.2.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -27,9 +29,9 @@ dev_dependencies:
   gen_lang: ^0.1.3
 
 scripts:
-  moor-watch: pub run build_runner watch
-  apk: pub run build_runner build && flutter build apk --split-per-abi
-  gen_lang: pub run gen_lang:generate
+  moor-watch: flutter pub run build_runner watch
+  apk: flutter pub run build_runner build && flutter build apk --split-per-abi
+  gen_lang: flutter pub run gen_lang:generate
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 

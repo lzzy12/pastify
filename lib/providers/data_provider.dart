@@ -2,15 +2,38 @@ import 'package:moor/moor.dart';
 import 'package:paster/models/data.dart';
 
 class DataProvider{
-  static final DataProvider _instance = DataProvider._internal();
   AppDatabase _db;
-  Stream<List<DataClass>> _stream;
-  Stream get data => _stream;
+  Stream<List<DataClass>> _items;
 
-  DataProvider._internal();
-  factory DataProvider(){
-    _instance._db = AppDatabase();
-    _instance._stream = _instance._db.getAll();
-    return _instance;
+  Stream<List<DataClass>> get data => _items;
+
+  DataProvider() {
+    _db = AppDatabase();
+  }
+
+  Future<void> addData(UpdateCompanion data) async {
+    try {
+      await _db.add(data);
+    } catch (e, f) {
+      print('$e\n$f');
+    }
+  }
+
+  Future<void> remove(UpdateCompanion data) async {
+    try {
+      _db.deleteData(data);
+    } catch (e, f) {
+      print('$e\n$f');
+      throw e;
+    }
+  }
+
+  Future<void> updateData(UpdateCompanion data) async {
+    try {
+      await _db.updateData(data);
+    } catch (e, f) {
+      print('$e\n$f');
+      throw e;
+    }
   }
 }
