@@ -9,6 +9,6 @@ abstract class DataTile extends StatelessWidget {
   DataTile(this.data) : _db = AppDatabase();
 
   Future<void> delete() {
-    return _db.deleteData((data as dynamic).toCompanion());
+    return _db.deleteData((data as dynamic).toCompanion(false));
   }
 }

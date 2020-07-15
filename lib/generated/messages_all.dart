@@ -16,6 +16,7 @@ class $en extends MessageLookupByLibrary {
     "TYPE_UIDAI": MessageLookupByLibrary.simpleMessage("UIDAI/Aadhar"),
     "TYPE_CREDIT_CARD":
         MessageLookupByLibrary.simpleMessage("Credit/Debit Card"),
+    "TYPE_PAN_CARD": MessageLookupByLibrary.simpleMessage("PAN Card"),
     "copiedToClipboard":
         MessageLookupByLibrary.simpleMessage("Copied to clipboard"),
     "noCardNumberValidation":
@@ -33,7 +34,8 @@ class $en extends MessageLookupByLibrary {
     "cvvHintText": MessageLookupByLibrary.simpleMessage("CVV"),
     "expiryHintText": MessageLookupByLibrary.simpleMessage("Expiry date"),
     "save": MessageLookupByLibrary.simpleMessage("Save"),
-    "cardHolderName": MessageLookupByLibrary.simpleMessage("Card Holder name"),
+    "cardHolderName": MessageLookupByLibrary.simpleMessage("Name on card"),
+    "expiringOnText": MessageLookupByLibrary.simpleMessage("Expiring on"),
   };
 }
 

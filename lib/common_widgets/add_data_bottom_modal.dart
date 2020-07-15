@@ -19,6 +19,8 @@ class _AddDataBottomModalSheetState extends State<AddDataBottomModalSheet> {
         return UIDAIForm();
       case 1:
         return CreditCardForm();
+      case 2:
+        return PanCardForm();
       default:
         return ErrorOccurredWidget();
     }
@@ -26,9 +28,11 @@ class _AddDataBottomModalSheetState extends State<AddDataBottomModalSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final s = S.of(context);
     final List<String> _optionStrings = [
-      S.of(context).TYPE_UIDAI,
-      S.of(context).TYPE_CREDIT_CARD
+      s.TYPE_UIDAI,
+      s.TYPE_CREDIT_CARD,
+      s.TYPE_PAN_CARD
     ];
     return SafeArea(
       child: Container(
@@ -48,7 +52,7 @@ class _AddDataBottomModalSheetState extends State<AddDataBottomModalSheet> {
                         value: i,
                         radioText: _optionStrings[i],
                         onPressed: (value) => setState(
-                          () => _activeIndex = value,
+                              () => _activeIndex = value,
                         ),
                       );
                     }),

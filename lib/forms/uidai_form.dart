@@ -3,11 +3,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:moor/moor.dart' show Value;
 import 'package:paster/configs/configs.dart';
+import 'package:paster/forms/form.dart';
 import 'package:paster/generated/i18n.dart';
 import 'package:paster/models/data.dart';
 import 'package:paster/utils/utils.dart';
 
-class UIDAIForm extends HookWidget {
+class UIDAIForm extends BaseForm {
   final _data = <String, String>{};
 
   @override
@@ -61,15 +62,20 @@ class UIDAIForm extends HookWidget {
               focusNode: nameNode,
             ),
             RaisedButton(
-              color: Theme.of(context).primaryColor,
-              child: Text(S.of(context).save),
-              onPressed: () => _save(context, form),
+              color: Theme
+                  .of(context)
+                  .primaryColor,
+              child: Text(S
+                  .of(context)
+                  .save, style: TextStyle(color: Colors.white),),
+              onPressed: () => save(context, form),
             )
           ],
         ));
   }
 
-  Future<void> _save(BuildContext context, GlobalKey<FormState> _form) async {
+  @override
+  Future<void> save(BuildContext context, GlobalKey<FormState> _form) async {
     final form = _form.currentState;
     if (!form.validate()) return;
     form.save();
@@ -81,5 +87,6 @@ class UIDAIForm extends HookWidget {
       ));
       Navigator.pop(context);
     } catch (e) {}
+    super.save(context, _form);
   }
 }
