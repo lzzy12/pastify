@@ -3,4 +3,5 @@ export 'copy_to_clipboard_widget.dart';
 export 'credit_card_tille.dart';
 export 'custom_radio.dart';
 export 'error_occurred_widget.dart';
+export 'pan_card_tile.dart';
 export 'uidai_tile.dart';

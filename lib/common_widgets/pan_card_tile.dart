@@ -1,32 +1,37 @@
 import 'package:flutter/material.dart';
-import 'package:paster/common_widgets/copy_to_clipboard_widget.dart';
 import 'package:paster/common_widgets/data_tile.dart';
+import 'package:paster/common_widgets/widgets.dart';
 import 'package:paster/configs/configs.dart';
 import 'package:paster/models/data.dart';
 
-class UIDAITile extends DataTile {
-  final UIDAIData uidai;
+class PanCardTile extends DataTile {
+  final PANCardData panCard;
 
-  UIDAITile(this.uidai) : super(uidai);
+  PanCardTile(this.panCard) : super(panCard);
 
   @override
   Widget build(BuildContext context) {
     return Card(
       child: ListTile(
+        title: Text(panCard.panCard),
+        subtitle: Row(
+          children: <Widget>[
+            Text(panCard.holderName),
+            CopyToClipBoardWidget(panCard.holderName),
+          ],
+        ),
         leading: Image.asset(
-          'assets/images/uidai.png',
+          'assets/images/pan_logo.png',
           height: Sizes.smallImageHeight,
           width: Sizes.smallImageWidth,
         ),
-        title: Text(uidai.name),
-        subtitle: Text(uidai.uidaiNumber),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            CopyToClipBoardWidget(uidai.uidaiNumber),
+            CopyToClipBoardWidget(panCard.panCard),
             IconButton(
-              icon: Icon(Icons.delete_outline),
               onPressed: delete,
+              icon: Icon(Icons.delete_outline),
             )
           ],
         ),

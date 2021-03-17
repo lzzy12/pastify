@@ -39,13 +39,17 @@ class S {
     return Intl.message("Credit/Debit Card", name: 'TYPE_CREDIT_CARD');
   }
 
+  String get TYPE_PAN_CARD {
+    return Intl.message("PAN Card", name: 'TYPE_PAN_CARD');
+  }
+
   String get copiedToClipboard {
     return Intl.message("Copied to clipboard", name: 'copiedToClipboard');
   }
 
   String get noCardNumberValidation {
-    return Intl.message(
-        "No card number entered", name: 'noCardNumberValidation');
+    return Intl.message("No card number entered",
+        name: 'noCardNumberValidation');
   }
 
   String get cardInvalid {
@@ -84,7 +88,11 @@ class S {
   }
 
   String get cardHolderName {
-    return Intl.message("Card Holder name", name: 'cardHolderName');
+    return Intl.message("Name on card", name: 'cardHolderName');
+  }
+
+  String get expiringOnText {
+    return Intl.message("Expiring on", name: 'expiringOnText');
   }
 
 

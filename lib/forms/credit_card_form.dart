@@ -3,11 +3,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:moor/moor.dart' show Value;
 import 'package:paster/configs/configs.dart';
+import 'package:paster/forms/form.dart';
 import 'package:paster/generated/i18n.dart';
 import 'package:paster/models/data.dart';
 import 'package:paster/utils/CreditCardUtils.dart';
 
-class CreditCardForm extends HookWidget {
+class CreditCardForm extends BaseForm {
   final _data = <String, String>{};
 
   @override
@@ -71,14 +72,19 @@ class CreditCardForm extends HookWidget {
             ],
           ),
           RaisedButton(
-            onPressed: () => _save(context, _form),
+            color: Theme
+                .of(context)
+                .primaryColor,
+            child: Text(s.save, style: TextStyle(color: Colors.white),),
+            onPressed: () => save(context, _form),
           )
         ],
       ),
     );
   }
 
-  Future<void> _save(BuildContext context, GlobalKey<FormState> _form) async {
+  @override
+  Future<void> save(BuildContext context, GlobalKey<FormState> _form) async {
     final form = _form.currentState;
     if (!form.validate()) return;
     form.save();
@@ -90,5 +96,6 @@ class CreditCardForm extends HookWidget {
         _data['expiryDate'],
       ),
     ));
+    super.save(context, _form);
   }
 }

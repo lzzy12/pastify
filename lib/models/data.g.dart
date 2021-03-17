@@ -12,7 +12,8 @@ class UIDAIData extends DataClass implements Insertable<UIDAIData> {
   final String uidaiNumber;
   final String name;
 
-  UIDAIData({@required this.id, @required this.uidaiNumber, this.name});
+  UIDAIData(
+      {@required this.id, @required this.uidaiNumber, @required this.name});
 
   factory UIDAIData.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
@@ -80,8 +81,7 @@ class UIDAIData extends DataClass implements Insertable<UIDAIData> {
   String toString() {
     return (StringBuffer('UIDAIData(')
       ..write('id: $id, ')..write('uidaiNumber: $uidaiNumber, ')..write(
-          'name: $name')
-          ..write(')'))
+          'name: $name')..write(')'))
         .toString();
   }
 
@@ -101,7 +101,6 @@ class UIDAICompanion extends UpdateCompanion<UIDAIData> {
   final Value<String> id;
   final Value<String> uidaiNumber;
   final Value<String> name;
-
   const UIDAICompanion({
     this.id = const Value.absent(),
     this.uidaiNumber = const Value.absent(),
@@ -111,8 +110,10 @@ class UIDAICompanion extends UpdateCompanion<UIDAIData> {
   UIDAICompanion.insert({
     this.id = const Value.absent(),
     @required String uidaiNumber,
-    this.name = const Value.absent(),
-  }) : uidaiNumber = Value(uidaiNumber);
+    @required String name,
+  })
+      : uidaiNumber = Value(uidaiNumber),
+        name = Value(name);
   static Insertable<UIDAIData> custom({
     Expression<String> id,
     Expression<String> uidaiNumber,
@@ -163,12 +164,9 @@ class UIDAICompanion extends UpdateCompanion<UIDAIData> {
 class $UIDAITable extends UIDAI with TableInfo<$UIDAITable, UIDAIData> {
   final GeneratedDatabase _db;
   final String _alias;
-
   $UIDAITable(this._db, [this._alias]);
-
   final VerificationMeta _idMeta = const VerificationMeta('id');
   GeneratedTextColumn _id;
-
   @override
   GeneratedTextColumn get id => _id ??= _constructId();
 
@@ -205,7 +203,7 @@ class $UIDAITable extends UIDAI with TableInfo<$UIDAITable, UIDAIData> {
     return GeneratedTextColumn(
       'name',
       $tableName,
-      true,
+      false,
     );
   }
 
@@ -234,6 +232,8 @@ class $UIDAITable extends UIDAI with TableInfo<$UIDAITable, UIDAIData> {
     if (data.containsKey('name')) {
       context.handle(
           _nameMeta, name.isAcceptableOrUnknown(data['name'], _nameMeta));
+    } else if (isInserting) {
+      context.missing(_nameMeta);
     }
     return context;
   }
@@ -257,7 +257,8 @@ class PANCardData extends DataClass implements Insertable<PANCardData> {
   final String panCard;
   final String holderName;
 
-  PANCardData({@required this.id, @required this.panCard, this.holderName});
+  PANCardData(
+      {@required this.id, @required this.panCard, @required this.holderName});
 
   factory PANCardData.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
@@ -323,13 +324,11 @@ class PANCardData extends DataClass implements Insertable<PANCardData> {
         panCard: panCard ?? this.panCard,
         holderName: holderName ?? this.holderName,
       );
-
   @override
   String toString() {
     return (StringBuffer('PANCardData(')
-      ..write('id: $id, ')..write('panCard: $panCard, ')
-          ..write('holderName: $holderName')
-          ..write(')'))
+      ..write('id: $id, ')..write('panCard: $panCard, ')..write(
+          'holderName: $holderName')..write(')'))
         .toString();
   }
 
@@ -349,7 +348,6 @@ class PANCardCompanion extends UpdateCompanion<PANCardData> {
   final Value<String> id;
   final Value<String> panCard;
   final Value<String> holderName;
-
   const PANCardCompanion({
     this.id = const Value.absent(),
     this.panCard = const Value.absent(),
@@ -359,8 +357,10 @@ class PANCardCompanion extends UpdateCompanion<PANCardData> {
   PANCardCompanion.insert({
     this.id = const Value.absent(),
     @required String panCard,
-    this.holderName = const Value.absent(),
-  }) : panCard = Value(panCard);
+    @required String holderName,
+  })
+      : panCard = Value(panCard),
+        holderName = Value(holderName);
   static Insertable<PANCardData> custom({
     Expression<String> id,
     Expression<String> panCard,
@@ -411,15 +411,11 @@ class PANCardCompanion extends UpdateCompanion<PANCardData> {
 class $PANCardTable extends PANCard with TableInfo<$PANCardTable, PANCardData> {
   final GeneratedDatabase _db;
   final String _alias;
-
   $PANCardTable(this._db, [this._alias]);
-
   final VerificationMeta _idMeta = const VerificationMeta('id');
   GeneratedTextColumn _id;
-
   @override
   GeneratedTextColumn get id => _id ??= _constructId();
-
   GeneratedTextColumn _constructId() {
     return GeneratedTextColumn(
       'id',
@@ -431,10 +427,8 @@ class $PANCardTable extends PANCard with TableInfo<$PANCardTable, PANCardData> {
 
   final VerificationMeta _panCardMeta = const VerificationMeta('panCard');
   GeneratedTextColumn _panCard;
-
   @override
   GeneratedTextColumn get panCard => _panCard ??= _constructPanCard();
-
   GeneratedTextColumn _constructPanCard() {
     return GeneratedTextColumn(
       'pan_card_number',
@@ -451,7 +445,7 @@ class $PANCardTable extends PANCard with TableInfo<$PANCardTable, PANCardData> {
     return GeneratedTextColumn(
       'holder_name',
       $tableName,
-      true,
+      false,
     );
   }
 
@@ -482,6 +476,8 @@ class $PANCardTable extends PANCard with TableInfo<$PANCardTable, PANCardData> {
           _holderNameMeta,
           holderName.isAcceptableOrUnknown(
               data['holder_name'], _holderNameMeta));
+    } else if (isInserting) {
+      context.missing(_holderNameMeta);
     }
     return context;
   }
@@ -505,11 +501,15 @@ class BankCardData extends DataClass implements Insertable<BankCardData> {
   final String cardNumber;
   final String cvv;
   final String expiryDate;
+  final String holderName;
+  final String address;
 
   BankCardData({@required this.id,
     @required this.cardNumber,
-    this.cvv,
-    this.expiryDate});
+    @required this.cvv,
+    this.expiryDate,
+    this.holderName,
+    this.address});
 
   factory BankCardData.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
@@ -522,6 +522,10 @@ class BankCardData extends DataClass implements Insertable<BankCardData> {
       cvv: stringType.mapFromDatabaseResponse(data['${effectivePrefix}cvv']),
       expiryDate: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}expiry_date']),
+      holderName: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}holder_name']),
+      address:
+      stringType.mapFromDatabaseResponse(data['${effectivePrefix}address']),
     );
   }
   @override
@@ -539,6 +543,12 @@ class BankCardData extends DataClass implements Insertable<BankCardData> {
     if (!nullToAbsent || expiryDate != null) {
       map['expiry_date'] = Variable<String>(expiryDate);
     }
+    if (!nullToAbsent || holderName != null) {
+      map['holder_name'] = Variable<String>(holderName);
+    }
+    if (!nullToAbsent || address != null) {
+      map['address'] = Variable<String>(address);
+    }
     return map;
   }
 
@@ -552,6 +562,12 @@ class BankCardData extends DataClass implements Insertable<BankCardData> {
       expiryDate: expiryDate == null && nullToAbsent
           ? const Value.absent()
           : Value(expiryDate),
+      holderName: holderName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(holderName),
+      address: address == null && nullToAbsent
+          ? const Value.absent()
+          : Value(address),
     );
   }
 
@@ -563,6 +579,8 @@ class BankCardData extends DataClass implements Insertable<BankCardData> {
       cardNumber: serializer.fromJson<String>(json['cardNumber']),
       cvv: serializer.fromJson<String>(json['cvv']),
       expiryDate: serializer.fromJson<String>(json['expiryDate']),
+      holderName: serializer.fromJson<String>(json['holderName']),
+      address: serializer.fromJson<String>(json['address']),
     );
   }
   @override
@@ -573,40 +591,55 @@ class BankCardData extends DataClass implements Insertable<BankCardData> {
       'cardNumber': serializer.toJson<String>(cardNumber),
       'cvv': serializer.toJson<String>(cvv),
       'expiryDate': serializer.toJson<String>(expiryDate),
+      'holderName': serializer.toJson<String>(holderName),
+      'address': serializer.toJson<String>(address),
     };
   }
 
-  BankCardData copyWith(
-      {String id, String cardNumber, String cvv, String expiryDate}) =>
+  BankCardData copyWith({String id,
+    String cardNumber,
+    String cvv,
+    String expiryDate,
+    String holderName,
+    String address}) =>
       BankCardData(
         id: id ?? this.id,
         cardNumber: cardNumber ?? this.cardNumber,
         cvv: cvv ?? this.cvv,
         expiryDate: expiryDate ?? this.expiryDate,
+        holderName: holderName ?? this.holderName,
+        address: address ?? this.address,
       );
 
   @override
   String toString() {
     return (StringBuffer('BankCardData(')
-      ..write('id: $id, ')
-          ..write('cardNumber: $cardNumber, ')
-          ..write('cvv: $cvv, ')
-          ..write('expiryDate: $expiryDate')
-          ..write(')'))
+      ..write('id: $id, ')..write('cardNumber: $cardNumber, ')..write(
+          'cvv: $cvv, ')..write('expiryDate: $expiryDate, ')..write(
+          'holderName: $holderName, ')..write('address: $address')..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => $mrjf($mrjc(id.hashCode,
-      $mrjc(cardNumber.hashCode, $mrjc(cvv.hashCode, expiryDate.hashCode))));
+  int get hashCode =>
+      $mrjf($mrjc(
+          id.hashCode,
+          $mrjc(
+              cardNumber.hashCode,
+              $mrjc(
+                  cvv.hashCode,
+                  $mrjc(expiryDate.hashCode,
+                      $mrjc(holderName.hashCode, address.hashCode))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
-      (other is BankCardData &&
-          other.id == this.id &&
-          other.cardNumber == this.cardNumber &&
-          other.cvv == this.cvv &&
-          other.expiryDate == this.expiryDate);
+          (other is BankCardData &&
+              other.id == this.id &&
+              other.cardNumber == this.cardNumber &&
+              other.cvv == this.cvv &&
+              other.expiryDate == this.expiryDate &&
+              other.holderName == this.holderName &&
+              other.address == this.address);
 }
 
 class BankCardCompanion extends UpdateCompanion<BankCardData> {
@@ -614,43 +647,59 @@ class BankCardCompanion extends UpdateCompanion<BankCardData> {
   final Value<String> cardNumber;
   final Value<String> cvv;
   final Value<String> expiryDate;
+  final Value<String> holderName;
+  final Value<String> address;
 
   const BankCardCompanion({
     this.id = const Value.absent(),
     this.cardNumber = const Value.absent(),
     this.cvv = const Value.absent(),
     this.expiryDate = const Value.absent(),
+    this.holderName = const Value.absent(),
+    this.address = const Value.absent(),
   });
 
   BankCardCompanion.insert({
     this.id = const Value.absent(),
     @required String cardNumber,
-    this.cvv = const Value.absent(),
+    @required String cvv,
     this.expiryDate = const Value.absent(),
-  }) : cardNumber = Value(cardNumber);
+    this.holderName = const Value.absent(),
+    this.address = const Value.absent(),
+  })
+      : cardNumber = Value(cardNumber),
+        cvv = Value(cvv);
   static Insertable<BankCardData> custom({
     Expression<String> id,
     Expression<String> cardNumber,
     Expression<String> cvv,
     Expression<String> expiryDate,
+    Expression<String> holderName,
+    Expression<String> address,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (cardNumber != null) 'card_number': cardNumber,
       if (cvv != null) 'cvv': cvv,
       if (expiryDate != null) 'expiry_date': expiryDate,
+      if (holderName != null) 'holder_name': holderName,
+      if (address != null) 'address': address,
     });
   }
 
   BankCardCompanion copyWith({Value<String> id,
     Value<String> cardNumber,
     Value<String> cvv,
-    Value<String> expiryDate}) {
+    Value<String> expiryDate,
+    Value<String> holderName,
+    Value<String> address}) {
     return BankCardCompanion(
       id: id ?? this.id,
       cardNumber: cardNumber ?? this.cardNumber,
       cvv: cvv ?? this.cvv,
       expiryDate: expiryDate ?? this.expiryDate,
+      holderName: holderName ?? this.holderName,
+      address: address ?? this.address,
     );
   }
 
@@ -669,17 +718,21 @@ class BankCardCompanion extends UpdateCompanion<BankCardData> {
     if (expiryDate.present) {
       map['expiry_date'] = Variable<String>(expiryDate.value);
     }
+    if (holderName.present) {
+      map['holder_name'] = Variable<String>(holderName.value);
+    }
+    if (address.present) {
+      map['address'] = Variable<String>(address.value);
+    }
     return map;
   }
 
   @override
   String toString() {
     return (StringBuffer('BankCardCompanion(')
-          ..write('id: $id, ')
-          ..write('cardNumber: $cardNumber, ')
-          ..write('cvv: $cvv, ')
-          ..write('expiryDate: $expiryDate')
-          ..write(')'))
+      ..write('id: $id, ')..write('cardNumber: $cardNumber, ')..write(
+          'cvv: $cvv, ')..write('expiryDate: $expiryDate, ')..write(
+          'holderName: $holderName, ')..write('address: $address')..write(')'))
         .toString();
   }
 }
@@ -688,15 +741,11 @@ class $BankCardTable extends BankCard
     with TableInfo<$BankCardTable, BankCardData> {
   final GeneratedDatabase _db;
   final String _alias;
-
   $BankCardTable(this._db, [this._alias]);
-
   final VerificationMeta _idMeta = const VerificationMeta('id');
   GeneratedTextColumn _id;
-
   @override
   GeneratedTextColumn get id => _id ??= _constructId();
-
   GeneratedTextColumn _constructId() {
     return GeneratedTextColumn(
       'id',
@@ -708,10 +757,8 @@ class $BankCardTable extends BankCard
 
   final VerificationMeta _cardNumberMeta = const VerificationMeta('cardNumber');
   GeneratedTextColumn _cardNumber;
-
   @override
   GeneratedTextColumn get cardNumber => _cardNumber ??= _constructCardNumber();
-
   GeneratedTextColumn _constructCardNumber() {
     return GeneratedTextColumn(
       'card_number',
@@ -724,12 +771,11 @@ class $BankCardTable extends BankCard
   GeneratedTextColumn _cvv;
   @override
   GeneratedTextColumn get cvv => _cvv ??= _constructCvv();
-
   GeneratedTextColumn _constructCvv() {
     return GeneratedTextColumn(
       'cvv',
       $tableName,
-      true,
+      false,
     );
   }
 
@@ -747,15 +793,46 @@ class $BankCardTable extends BankCard
     );
   }
 
+  final VerificationMeta _holderNameMeta = const VerificationMeta('holderName');
+  GeneratedTextColumn _holderName;
+
   @override
-  List<GeneratedColumn> get $columns => [id, cardNumber, cvv, expiryDate];
+  GeneratedTextColumn get holderName => _holderName ??= _constructHolderName();
+
+  GeneratedTextColumn _constructHolderName() {
+    return GeneratedTextColumn(
+      'holder_name',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _addressMeta = const VerificationMeta('address');
+  GeneratedTextColumn _address;
+
+  @override
+  GeneratedTextColumn get address => _address ??= _constructAddress();
+
+  GeneratedTextColumn _constructAddress() {
+    return GeneratedTextColumn(
+      'address',
+      $tableName,
+      true,
+    );
+  }
+
+  @override
+  List<GeneratedColumn> get $columns =>
+      [id, cardNumber, cvv, expiryDate, holderName, address];
 
   @override
   $BankCardTable get asDslTable => this;
+
   @override
   String get $tableName => _alias ?? 'bank_card';
   @override
   final String actualTableName = 'bank_card';
+
   @override
   VerificationContext validateIntegrity(Insertable<BankCardData> instance,
       {bool isInserting = false}) {
@@ -775,12 +852,24 @@ class $BankCardTable extends BankCard
     if (data.containsKey('cvv')) {
       context.handle(
           _cvvMeta, cvv.isAcceptableOrUnknown(data['cvv'], _cvvMeta));
+    } else if (isInserting) {
+      context.missing(_cvvMeta);
     }
     if (data.containsKey('expiry_date')) {
       context.handle(
           _expiryDateMeta,
           expiryDate.isAcceptableOrUnknown(
               data['expiry_date'], _expiryDateMeta));
+    }
+    if (data.containsKey('holder_name')) {
+      context.handle(
+          _holderNameMeta,
+          holderName.isAcceptableOrUnknown(
+              data['holder_name'], _holderNameMeta));
+    }
+    if (data.containsKey('address')) {
+      context.handle(_addressMeta,
+          address.isAcceptableOrUnknown(data['address'], _addressMeta));
     }
     return context;
   }
@@ -802,9 +891,7 @@ class $BankCardTable extends BankCard
 class OtherData extends DataClass implements Insertable<OtherData> {
   final String id;
   final String data;
-
   OtherData({@required this.id, @required this.data});
-
   factory OtherData.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
@@ -874,17 +961,14 @@ class OtherData extends DataClass implements Insertable<OtherData> {
 class OtherCompanion extends UpdateCompanion<OtherData> {
   final Value<String> id;
   final Value<String> data;
-
   const OtherCompanion({
     this.id = const Value.absent(),
     this.data = const Value.absent(),
   });
-
   OtherCompanion.insert({
     this.id = const Value.absent(),
     @required String data,
   }) : data = Value(data);
-
   static Insertable<OtherData> custom({
     Expression<String> id,
     Expression<String> data,
@@ -927,15 +1011,11 @@ class OtherCompanion extends UpdateCompanion<OtherData> {
 class $OtherTable extends Other with TableInfo<$OtherTable, OtherData> {
   final GeneratedDatabase _db;
   final String _alias;
-
   $OtherTable(this._db, [this._alias]);
-
   final VerificationMeta _idMeta = const VerificationMeta('id');
   GeneratedTextColumn _id;
-
   @override
   GeneratedTextColumn get id => _id ??= _constructId();
-
   GeneratedTextColumn _constructId() {
     return GeneratedTextColumn(
       'id',
@@ -947,10 +1027,8 @@ class $OtherTable extends Other with TableInfo<$OtherTable, OtherData> {
 
   final VerificationMeta _dataMeta = const VerificationMeta('data');
   GeneratedTextColumn _data;
-
   @override
   GeneratedTextColumn get data => _data ??= _constructData();
-
   GeneratedTextColumn _constructData() {
     return GeneratedTextColumn(
       'data',

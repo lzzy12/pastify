@@ -15,21 +15,25 @@ class Data extends Table {
 class UIDAI extends Data {
   TextColumn get uidaiNumber => text().named('uidai')();
 
-  TextColumn get name => text().nullable()();
+  TextColumn get name => text()();
 }
 
 class PANCard extends Data {
   TextColumn get panCard => text().named('pan_card_number')();
 
-  TextColumn get holderName => text().nullable().named('holder_name')();
+  TextColumn get holderName => text().named('holder_name')();
 }
 
 class BankCard extends Data {
   TextColumn get cardNumber => text().named('card_number')();
 
-  TextColumn get cvv => text().nullable()();
+  TextColumn get cvv => text()();
 
   TextColumn get expiryDate => text().nullable().named('expiry_date')();
+
+  TextColumn get holderName => text().nullable().named('holder_name')();
+
+  TextColumn get address => text().nullable().named('address')();
 }
 
 class Other extends Data {

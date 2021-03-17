@@ -2,6 +2,7 @@
   "APP_NAME": "Paster",
   "TYPE_UIDAI": "UIDAI/Aadhar",
   "TYPE_CREDIT_CARD": "Credit/Debit Card",
+  "TYPE_PAN_CARD": "PAN Card",
   "copiedToClipboard": "Copied to clipboard",
   "noCardNumberValidation": "No card number entered",
   "cardInvalid": "This card number is invalid, please recheck",
@@ -12,5 +13,6 @@
   "cvvHintText": "CVV",
   "expiryHintText": "Expiry date",
   "save": "Save",
-  "cardHolderName": "Card Holder name"
+  "cardHolderName": "Name on card",
+  "expiringOnText": "Expiring on"
 }
