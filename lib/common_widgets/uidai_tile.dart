@@ -18,8 +18,8 @@ class UIDAITile extends DataTile {
           height: Sizes.smallImageHeight,
           width: Sizes.smallImageWidth,
         ),
-        title: Text(uidai.name),
-        subtitle: Text(uidai.uidaiNumber),
+        title: Text(uidai.name!),
+        subtitle: Text(uidai.uidaiNumber!),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[

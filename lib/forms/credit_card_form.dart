@@ -9,7 +9,7 @@ import 'package:paster/models/data.dart';
 import 'package:paster/utils/CreditCardUtils.dart';
 
 class CreditCardForm extends BaseForm {
-  final _data = <String, String>{};
+  final _data = <String, String?>{};
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class CreditCardForm extends BaseForm {
     final expiryNode = useFocusNode();
     final _form =
         useMemoized<GlobalKey<FormState>>(() => GlobalKey<FormState>());
-    final s = S.of(context);
+    final s = S.of(context)!;
     return Form(
       key: _form,
       child: Column(
@@ -48,7 +48,7 @@ class CreditCardForm extends BaseForm {
               Expanded(
                 child: TextFormField(
                   onSaved: (value) =>
-                      _data['cvv'] = CreditCardUtils.getCleanedNumber(value),
+                      _data['cvv'] = CreditCardUtils.getCleanedNumber(value!),
                   onFieldSubmitted: (value) =>
                       FocusScope.of(context).requestFocus(expiryNode),
                   focusNode: cvvNode,
@@ -85,7 +85,7 @@ class CreditCardForm extends BaseForm {
 
   @override
   Future<void> save(BuildContext context, GlobalKey<FormState> _form) async {
-    final form = _form.currentState;
+    final form = _form.currentState!;
     if (!form.validate()) return;
     form.save();
     final provider = AppDatabase();

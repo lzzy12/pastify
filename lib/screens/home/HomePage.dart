@@ -11,12 +11,12 @@ class HomePage extends StatelessWidget {
     final uidaiProvider = Provider.of<List<UIDAIData>>(context);
     final cardProvider = Provider.of<List<BankCardData>>(context);
     final panCardProvider = Provider.of<List<PANCardData>>(context);
-    final s = S.of(context);
+    final s = S.of(context)!;
     return DefaultTabController(
       length: 3,
       child: Scaffold(
         appBar: AppBar(
-          title: Text(S.of(context).APP_NAME),
+          title: Text(S.of(context)!.APP_NAME),
           bottom: TabBar(
             isScrollable: true,
             tabs: <Tab>[

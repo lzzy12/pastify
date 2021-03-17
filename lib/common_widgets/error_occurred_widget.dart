@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ErrorOccurredWidget extends StatelessWidget {
-  final String error;
+  final String? error;
 
   ErrorOccurredWidget({this.error});
 

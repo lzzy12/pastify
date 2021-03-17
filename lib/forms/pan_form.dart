@@ -19,14 +19,14 @@ class PanCardForm extends BaseForm {
     final cardHolderNameNode = useFocusNode();
     final _form =
         useMemoized<GlobalKey<FormState>>(() => GlobalKey<FormState>());
-    final s = S.of(context);
+    final s = S.of(context)!;
     return Form(
       key: _form,
       child: Column(
         children: <Widget>[
           TextFormField(
             autofocus: true,
-            onSaved: (value) => _data[_PAN_CARD_FIELD] = value.trim(),
+            onSaved: (value) => _data[_PAN_CARD_FIELD] = value!.trim(),
             onFieldSubmitted: (value) =>
                 FocusScope.of(context).requestFocus(cardHolderNameNode),
             decoration: InputDecoration(
@@ -47,7 +47,7 @@ class PanCardForm extends BaseForm {
           TextFormField(
             autofocus: true,
             focusNode: cardHolderNameNode,
-            onSaved: (value) => _data[_HOLDER_NAME_FIELD] = value.trim(),
+            onSaved: (value) => _data[_HOLDER_NAME_FIELD] = value!.trim(),
             decoration: InputDecoration(
                 icon: Icon(Icons.tag_faces), hintText: s.cardHolderName),
             keyboardType: TextInputType.text,
@@ -67,7 +67,7 @@ class PanCardForm extends BaseForm {
 
   @override
   Future<void> save(BuildContext context, GlobalKey<FormState> _form) async {
-    final form = _form.currentState;
+    final form = _form.currentState!;
     if (!form.validate()) return;
     form.save();
     final provider = AppDatabase();

@@ -13,10 +13,10 @@ class PanCardTile extends DataTile {
   Widget build(BuildContext context) {
     return Card(
       child: ListTile(
-        title: Text(panCard.panCard),
+        title: Text(panCard.panCard!),
         subtitle: Row(
           children: <Widget>[
-            Text(panCard.holderName),
+            Text(panCard.holderName!),
             CopyToClipBoardWidget(panCard.holderName),
           ],
         ),

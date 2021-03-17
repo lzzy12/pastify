@@ -5,10 +5,10 @@ import 'package:paster/configs/configs.dart';
 class CustomRadioModal<T> {
   final void Function(T value) onPressed;
   final String radioText;
-  final T value;
+  final T? value;
 
   CustomRadioModal(
-      {@required this.onPressed, @required this.radioText, this.value});
+      {required this.onPressed, required this.radioText, this.value});
 }
 
 class CustomRadio<T> extends StatelessWidget {
@@ -18,8 +18,8 @@ class CustomRadio<T> extends StatelessWidget {
   final _scrollController = ScrollController();
 
   CustomRadio(
-      {@required this.children,
-      @required this.activeIndex,
+      {required this.children,
+      required this.activeIndex,
       this.scrollDirection = Axis.horizontal});
 
   @override
@@ -34,7 +34,7 @@ class CustomRadio<T> extends StatelessWidget {
           itemCount: children.length,
           itemBuilder: (ctx, i) {
             return _CustomRadioButton<T>(
-              children[i],
+              children[i] as CustomRadioModal<T?>,
               isActive: i == activeIndex,
             );
           },
@@ -50,7 +50,7 @@ class CustomRadio<T> extends StatelessWidget {
 
 class _CustomRadioButton<T> extends StatelessWidget {
   final bool _isActive;
-  final CustomRadioModal<T> _data;
+  final CustomRadioModal<T?> _data;
 
   _CustomRadioButton(this._data, {bool isActive = false})
       : _isActive = isActive;

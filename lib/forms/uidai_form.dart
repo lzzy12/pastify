@@ -9,14 +9,14 @@ import 'package:paster/models/data.dart';
 import 'package:paster/utils/utils.dart';
 
 class UIDAIForm extends BaseForm {
-  final _data = <String, String>{};
+  final _data = <String, String?>{};
 
   @override
   Widget build(BuildContext context) {
     final nameNode = useFocusNode();
     final form =
         useMemoized<GlobalKey<FormState>>(() => GlobalKey<FormState>());
-    final s = S.of(context);
+    final s = S.of(context)!;
     return Form(
         key: form,
         child: Column(
@@ -24,7 +24,7 @@ class UIDAIForm extends BaseForm {
             TextFormField(
               autofocus: true,
               validator: (value) {
-                final text = CreditCardUtils.getCleanedNumber(value);
+                final text = CreditCardUtils.getCleanedNumber(value!);
                 print(text.length);
                 if (text.isEmpty) return s.uidaiFieldEmpty;
                 if (text.length != 12) return s.uidaiInvalidValidation;
@@ -46,7 +46,7 @@ class UIDAIForm extends BaseForm {
                   ),
                   labelText: s.TYPE_UIDAI),
               onSaved: (value) =>
-                  _data['uidai'] = CreditCardUtils.getCleanedNumber(value),
+                  _data['uidai'] = CreditCardUtils.getCleanedNumber(value!),
               onFieldSubmitted: (value) =>
                   FocusScope.of(context).requestFocus(nameNode),
             ),
@@ -66,7 +66,7 @@ class UIDAIForm extends BaseForm {
                   .of(context)
                   .primaryColor,
               child: Text(S
-                  .of(context)
+                  .of(context)!
                   .save, style: TextStyle(color: Colors.white),),
               onPressed: () => save(context, form),
             )
@@ -76,7 +76,7 @@ class UIDAIForm extends BaseForm {
 
   @override
   Future<void> save(BuildContext context, GlobalKey<FormState> _form) async {
-    final form = _form.currentState;
+    final form = _form.currentState!;
     if (!form.validate()) return;
     form.save();
     final provider = AppDatabase();

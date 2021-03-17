@@ -8,15 +8,15 @@ part of 'data.dart';
 
 // ignore_for_file: unnecessary_brace_in_string_interps, unnecessary_this
 class UIDAIData extends DataClass implements Insertable<UIDAIData> {
-  final String id;
-  final String uidaiNumber;
-  final String name;
+  final String? id;
+  final String? uidaiNumber;
+  final String? name;
 
   UIDAIData(
-      {@required this.id, @required this.uidaiNumber, @required this.name});
+      {required this.id, required this.uidaiNumber, required this.name});
 
   factory UIDAIData.fromData(Map<String, dynamic> data, GeneratedDatabase db,
-      {String prefix}) {
+      {String? prefix}) {
     final effectivePrefix = prefix ?? '';
     final stringType = db.typeSystem.forDartType<String>();
     return UIDAIData(
@@ -30,13 +30,13 @@ class UIDAIData extends DataClass implements Insertable<UIDAIData> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (!nullToAbsent || id != null) {
-      map['id'] = Variable<String>(id);
+      map['id'] = Variable<String?>(id);
     }
     if (!nullToAbsent || uidaiNumber != null) {
-      map['uidai'] = Variable<String>(uidaiNumber);
+      map['uidai'] = Variable<String?>(uidaiNumber);
     }
     if (!nullToAbsent || name != null) {
-      map['name'] = Variable<String>(name);
+      map['name'] = Variable<String?>(name);
     }
     return map;
   }
@@ -52,7 +52,7 @@ class UIDAIData extends DataClass implements Insertable<UIDAIData> {
   }
 
   factory UIDAIData.fromJson(Map<String, dynamic> json,
-      {ValueSerializer serializer}) {
+      {ValueSerializer? serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return UIDAIData(
       id: serializer.fromJson<String>(json['id']),
@@ -61,16 +61,16 @@ class UIDAIData extends DataClass implements Insertable<UIDAIData> {
     );
   }
   @override
-  Map<String, dynamic> toJson({ValueSerializer serializer}) {
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'id': serializer.toJson<String>(id),
-      'uidaiNumber': serializer.toJson<String>(uidaiNumber),
-      'name': serializer.toJson<String>(name),
+      'id': serializer.toJson<String?>(id),
+      'uidaiNumber': serializer.toJson<String?>(uidaiNumber),
+      'name': serializer.toJson<String?>(name),
     };
   }
 
-  UIDAIData copyWith({String id, String uidaiNumber, String name}) =>
+  UIDAIData copyWith({String? id, String? uidaiNumber, String? name}) =>
       UIDAIData(
         id: id ?? this.id,
         uidaiNumber: uidaiNumber ?? this.uidaiNumber,
@@ -98,9 +98,9 @@ class UIDAIData extends DataClass implements Insertable<UIDAIData> {
 }
 
 class UIDAICompanion extends UpdateCompanion<UIDAIData> {
-  final Value<String> id;
-  final Value<String> uidaiNumber;
-  final Value<String> name;
+  final Value<String?> id;
+  final Value<String?> uidaiNumber;
+  final Value<String?> name;
   const UIDAICompanion({
     this.id = const Value.absent(),
     this.uidaiNumber = const Value.absent(),
@@ -109,15 +109,15 @@ class UIDAICompanion extends UpdateCompanion<UIDAIData> {
 
   UIDAICompanion.insert({
     this.id = const Value.absent(),
-    @required String uidaiNumber,
-    @required String name,
+    required String uidaiNumber,
+    required String name,
   })
       : uidaiNumber = Value(uidaiNumber),
         name = Value(name);
   static Insertable<UIDAIData> custom({
-    Expression<String> id,
-    Expression<String> uidaiNumber,
-    Expression<String> name,
+    Expression<String>? id,
+    Expression<String>? uidaiNumber,
+    Expression<String>? name,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -127,7 +127,7 @@ class UIDAICompanion extends UpdateCompanion<UIDAIData> {
   }
 
   UIDAICompanion copyWith(
-      {Value<String> id, Value<String> uidaiNumber, Value<String> name}) {
+      {Value<String>? id, Value<String>? uidaiNumber, Value<String>? name}) {
     return UIDAICompanion(
       id: id ?? this.id,
       uidaiNumber: uidaiNumber ?? this.uidaiNumber,
@@ -139,13 +139,13 @@ class UIDAICompanion extends UpdateCompanion<UIDAIData> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (id.present) {
-      map['id'] = Variable<String>(id.value);
+      map['id'] = Variable<String?>(id.value);
     }
     if (uidaiNumber.present) {
-      map['uidai'] = Variable<String>(uidaiNumber.value);
+      map['uidai'] = Variable<String?>(uidaiNumber.value);
     }
     if (name.present) {
-      map['name'] = Variable<String>(name.value);
+      map['name'] = Variable<String?>(name.value);
     }
     return map;
   }
@@ -163,10 +163,10 @@ class UIDAICompanion extends UpdateCompanion<UIDAIData> {
 
 class $UIDAITable extends UIDAI with TableInfo<$UIDAITable, UIDAIData> {
   final GeneratedDatabase _db;
-  final String _alias;
+  final String? _alias;
   $UIDAITable(this._db, [this._alias]);
   final VerificationMeta _idMeta = const VerificationMeta('id');
-  GeneratedTextColumn _id;
+  GeneratedTextColumn? _id;
   @override
   GeneratedTextColumn get id => _id ??= _constructId();
 
@@ -181,7 +181,7 @@ class $UIDAITable extends UIDAI with TableInfo<$UIDAITable, UIDAIData> {
 
   final VerificationMeta _uidaiNumberMeta =
   const VerificationMeta('uidaiNumber');
-  GeneratedTextColumn _uidaiNumber;
+  GeneratedTextColumn? _uidaiNumber;
 
   @override
   GeneratedTextColumn get uidaiNumber =>
@@ -196,7 +196,7 @@ class $UIDAITable extends UIDAI with TableInfo<$UIDAITable, UIDAIData> {
   }
 
   final VerificationMeta _nameMeta = const VerificationMeta('name');
-  GeneratedTextColumn _name;
+  GeneratedTextColumn? _name;
   @override
   GeneratedTextColumn get name => _name ??= _constructName();
   GeneratedTextColumn _constructName() {
@@ -221,17 +221,17 @@ class $UIDAITable extends UIDAI with TableInfo<$UIDAITable, UIDAIData> {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
     if (data.containsKey('uidai')) {
       context.handle(_uidaiNumberMeta,
-          uidaiNumber.isAcceptableOrUnknown(data['uidai'], _uidaiNumberMeta));
+          uidaiNumber.isAcceptableOrUnknown(data['uidai']!, _uidaiNumberMeta));
     } else if (isInserting) {
       context.missing(_uidaiNumberMeta);
     }
     if (data.containsKey('name')) {
       context.handle(
-          _nameMeta, name.isAcceptableOrUnknown(data['name'], _nameMeta));
+          _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
     } else if (isInserting) {
       context.missing(_nameMeta);
     }
@@ -241,7 +241,7 @@ class $UIDAITable extends UIDAI with TableInfo<$UIDAITable, UIDAIData> {
   @override
   Set<GeneratedColumn> get $primaryKey => <GeneratedColumn>{};
   @override
-  UIDAIData map(Map<String, dynamic> data, {String tablePrefix}) {
+  UIDAIData map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
     return UIDAIData.fromData(data, _db, prefix: effectivePrefix);
   }
@@ -253,15 +253,15 @@ class $UIDAITable extends UIDAI with TableInfo<$UIDAITable, UIDAIData> {
 }
 
 class PANCardData extends DataClass implements Insertable<PANCardData> {
-  final String id;
-  final String panCard;
-  final String holderName;
+  final String? id;
+  final String? panCard;
+  final String? holderName;
 
   PANCardData(
-      {@required this.id, @required this.panCard, @required this.holderName});
+      {required this.id, required this.panCard, required this.holderName});
 
   factory PANCardData.fromData(Map<String, dynamic> data, GeneratedDatabase db,
-      {String prefix}) {
+      {String? prefix}) {
     final effectivePrefix = prefix ?? '';
     final stringType = db.typeSystem.forDartType<String>();
     return PANCardData(
@@ -276,13 +276,13 @@ class PANCardData extends DataClass implements Insertable<PANCardData> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (!nullToAbsent || id != null) {
-      map['id'] = Variable<String>(id);
+      map['id'] = Variable<String?>(id);
     }
     if (!nullToAbsent || panCard != null) {
-      map['pan_card_number'] = Variable<String>(panCard);
+      map['pan_card_number'] = Variable<String?>(panCard);
     }
     if (!nullToAbsent || holderName != null) {
-      map['holder_name'] = Variable<String>(holderName);
+      map['holder_name'] = Variable<String?>(holderName);
     }
     return map;
   }
@@ -300,7 +300,7 @@ class PANCardData extends DataClass implements Insertable<PANCardData> {
   }
 
   factory PANCardData.fromJson(Map<String, dynamic> json,
-      {ValueSerializer serializer}) {
+      {ValueSerializer? serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return PANCardData(
       id: serializer.fromJson<String>(json['id']),
@@ -309,16 +309,16 @@ class PANCardData extends DataClass implements Insertable<PANCardData> {
     );
   }
   @override
-  Map<String, dynamic> toJson({ValueSerializer serializer}) {
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'id': serializer.toJson<String>(id),
-      'panCard': serializer.toJson<String>(panCard),
-      'holderName': serializer.toJson<String>(holderName),
+      'id': serializer.toJson<String?>(id),
+      'panCard': serializer.toJson<String?>(panCard),
+      'holderName': serializer.toJson<String?>(holderName),
     };
   }
 
-  PANCardData copyWith({String id, String panCard, String holderName}) =>
+  PANCardData copyWith({String? id, String? panCard, String? holderName}) =>
       PANCardData(
         id: id ?? this.id,
         panCard: panCard ?? this.panCard,
@@ -345,9 +345,9 @@ class PANCardData extends DataClass implements Insertable<PANCardData> {
 }
 
 class PANCardCompanion extends UpdateCompanion<PANCardData> {
-  final Value<String> id;
-  final Value<String> panCard;
-  final Value<String> holderName;
+  final Value<String?> id;
+  final Value<String?> panCard;
+  final Value<String?> holderName;
   const PANCardCompanion({
     this.id = const Value.absent(),
     this.panCard = const Value.absent(),
@@ -356,15 +356,15 @@ class PANCardCompanion extends UpdateCompanion<PANCardData> {
 
   PANCardCompanion.insert({
     this.id = const Value.absent(),
-    @required String panCard,
-    @required String holderName,
+    required String panCard,
+    required String holderName,
   })
       : panCard = Value(panCard),
         holderName = Value(holderName);
   static Insertable<PANCardData> custom({
-    Expression<String> id,
-    Expression<String> panCard,
-    Expression<String> holderName,
+    Expression<String>? id,
+    Expression<String>? panCard,
+    Expression<String>? holderName,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -374,7 +374,7 @@ class PANCardCompanion extends UpdateCompanion<PANCardData> {
   }
 
   PANCardCompanion copyWith(
-      {Value<String> id, Value<String> panCard, Value<String> holderName}) {
+      {Value<String>? id, Value<String>? panCard, Value<String>? holderName}) {
     return PANCardCompanion(
       id: id ?? this.id,
       panCard: panCard ?? this.panCard,
@@ -386,13 +386,13 @@ class PANCardCompanion extends UpdateCompanion<PANCardData> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (id.present) {
-      map['id'] = Variable<String>(id.value);
+      map['id'] = Variable<String?>(id.value);
     }
     if (panCard.present) {
-      map['pan_card_number'] = Variable<String>(panCard.value);
+      map['pan_card_number'] = Variable<String?>(panCard.value);
     }
     if (holderName.present) {
-      map['holder_name'] = Variable<String>(holderName.value);
+      map['holder_name'] = Variable<String?>(holderName.value);
     }
     return map;
   }
@@ -410,10 +410,10 @@ class PANCardCompanion extends UpdateCompanion<PANCardData> {
 
 class $PANCardTable extends PANCard with TableInfo<$PANCardTable, PANCardData> {
   final GeneratedDatabase _db;
-  final String _alias;
+  final String? _alias;
   $PANCardTable(this._db, [this._alias]);
   final VerificationMeta _idMeta = const VerificationMeta('id');
-  GeneratedTextColumn _id;
+  GeneratedTextColumn? _id;
   @override
   GeneratedTextColumn get id => _id ??= _constructId();
   GeneratedTextColumn _constructId() {
@@ -426,7 +426,7 @@ class $PANCardTable extends PANCard with TableInfo<$PANCardTable, PANCardData> {
   }
 
   final VerificationMeta _panCardMeta = const VerificationMeta('panCard');
-  GeneratedTextColumn _panCard;
+  GeneratedTextColumn? _panCard;
   @override
   GeneratedTextColumn get panCard => _panCard ??= _constructPanCard();
   GeneratedTextColumn _constructPanCard() {
@@ -438,7 +438,7 @@ class $PANCardTable extends PANCard with TableInfo<$PANCardTable, PANCardData> {
   }
 
   final VerificationMeta _holderNameMeta = const VerificationMeta('holderName');
-  GeneratedTextColumn _holderName;
+  GeneratedTextColumn? _holderName;
   @override
   GeneratedTextColumn get holderName => _holderName ??= _constructHolderName();
   GeneratedTextColumn _constructHolderName() {
@@ -463,11 +463,11 @@ class $PANCardTable extends PANCard with TableInfo<$PANCardTable, PANCardData> {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
     if (data.containsKey('pan_card_number')) {
       context.handle(_panCardMeta,
-          panCard.isAcceptableOrUnknown(data['pan_card_number'], _panCardMeta));
+          panCard.isAcceptableOrUnknown(data['pan_card_number']!, _panCardMeta));
     } else if (isInserting) {
       context.missing(_panCardMeta);
     }
@@ -475,7 +475,7 @@ class $PANCardTable extends PANCard with TableInfo<$PANCardTable, PANCardData> {
       context.handle(
           _holderNameMeta,
           holderName.isAcceptableOrUnknown(
-              data['holder_name'], _holderNameMeta));
+              data['holder_name']!, _holderNameMeta));
     } else if (isInserting) {
       context.missing(_holderNameMeta);
     }
@@ -485,7 +485,7 @@ class $PANCardTable extends PANCard with TableInfo<$PANCardTable, PANCardData> {
   @override
   Set<GeneratedColumn> get $primaryKey => <GeneratedColumn>{};
   @override
-  PANCardData map(Map<String, dynamic> data, {String tablePrefix}) {
+  PANCardData map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
     return PANCardData.fromData(data, _db, prefix: effectivePrefix);
   }
@@ -497,22 +497,22 @@ class $PANCardTable extends PANCard with TableInfo<$PANCardTable, PANCardData> {
 }
 
 class BankCardData extends DataClass implements Insertable<BankCardData> {
-  final String id;
-  final String cardNumber;
-  final String cvv;
-  final String expiryDate;
-  final String holderName;
-  final String address;
+  final String? id;
+  final String? cardNumber;
+  final String? cvv;
+  final String? expiryDate;
+  final String? holderName;
+  final String? address;
 
-  BankCardData({@required this.id,
-    @required this.cardNumber,
-    @required this.cvv,
+  BankCardData({required this.id,
+    required this.cardNumber,
+    required this.cvv,
     this.expiryDate,
     this.holderName,
     this.address});
 
   factory BankCardData.fromData(Map<String, dynamic> data, GeneratedDatabase db,
-      {String prefix}) {
+      {String? prefix}) {
     final effectivePrefix = prefix ?? '';
     final stringType = db.typeSystem.forDartType<String>();
     return BankCardData(
@@ -532,22 +532,22 @@ class BankCardData extends DataClass implements Insertable<BankCardData> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (!nullToAbsent || id != null) {
-      map['id'] = Variable<String>(id);
+      map['id'] = Variable<String?>(id);
     }
     if (!nullToAbsent || cardNumber != null) {
-      map['card_number'] = Variable<String>(cardNumber);
+      map['card_number'] = Variable<String?>(cardNumber);
     }
     if (!nullToAbsent || cvv != null) {
-      map['cvv'] = Variable<String>(cvv);
+      map['cvv'] = Variable<String?>(cvv);
     }
     if (!nullToAbsent || expiryDate != null) {
-      map['expiry_date'] = Variable<String>(expiryDate);
+      map['expiry_date'] = Variable<String?>(expiryDate);
     }
     if (!nullToAbsent || holderName != null) {
-      map['holder_name'] = Variable<String>(holderName);
+      map['holder_name'] = Variable<String?>(holderName);
     }
     if (!nullToAbsent || address != null) {
-      map['address'] = Variable<String>(address);
+      map['address'] = Variable<String?>(address);
     }
     return map;
   }
@@ -572,7 +572,7 @@ class BankCardData extends DataClass implements Insertable<BankCardData> {
   }
 
   factory BankCardData.fromJson(Map<String, dynamic> json,
-      {ValueSerializer serializer}) {
+      {ValueSerializer? serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return BankCardData(
       id: serializer.fromJson<String>(json['id']),
@@ -584,24 +584,24 @@ class BankCardData extends DataClass implements Insertable<BankCardData> {
     );
   }
   @override
-  Map<String, dynamic> toJson({ValueSerializer serializer}) {
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'id': serializer.toJson<String>(id),
-      'cardNumber': serializer.toJson<String>(cardNumber),
-      'cvv': serializer.toJson<String>(cvv),
-      'expiryDate': serializer.toJson<String>(expiryDate),
-      'holderName': serializer.toJson<String>(holderName),
-      'address': serializer.toJson<String>(address),
+      'id': serializer.toJson<String?>(id),
+      'cardNumber': serializer.toJson<String?>(cardNumber),
+      'cvv': serializer.toJson<String?>(cvv),
+      'expiryDate': serializer.toJson<String?>(expiryDate),
+      'holderName': serializer.toJson<String?>(holderName),
+      'address': serializer.toJson<String?>(address),
     };
   }
 
-  BankCardData copyWith({String id,
-    String cardNumber,
-    String cvv,
-    String expiryDate,
-    String holderName,
-    String address}) =>
+  BankCardData copyWith({String? id,
+    String? cardNumber,
+    String? cvv,
+    String? expiryDate,
+    String? holderName,
+    String? address}) =>
       BankCardData(
         id: id ?? this.id,
         cardNumber: cardNumber ?? this.cardNumber,
@@ -643,12 +643,12 @@ class BankCardData extends DataClass implements Insertable<BankCardData> {
 }
 
 class BankCardCompanion extends UpdateCompanion<BankCardData> {
-  final Value<String> id;
-  final Value<String> cardNumber;
-  final Value<String> cvv;
-  final Value<String> expiryDate;
-  final Value<String> holderName;
-  final Value<String> address;
+  final Value<String?> id;
+  final Value<String?> cardNumber;
+  final Value<String?> cvv;
+  final Value<String?> expiryDate;
+  final Value<String?> holderName;
+  final Value<String?> address;
 
   const BankCardCompanion({
     this.id = const Value.absent(),
@@ -661,8 +661,8 @@ class BankCardCompanion extends UpdateCompanion<BankCardData> {
 
   BankCardCompanion.insert({
     this.id = const Value.absent(),
-    @required String cardNumber,
-    @required String cvv,
+    required String cardNumber,
+    required String cvv,
     this.expiryDate = const Value.absent(),
     this.holderName = const Value.absent(),
     this.address = const Value.absent(),
@@ -670,12 +670,12 @@ class BankCardCompanion extends UpdateCompanion<BankCardData> {
       : cardNumber = Value(cardNumber),
         cvv = Value(cvv);
   static Insertable<BankCardData> custom({
-    Expression<String> id,
-    Expression<String> cardNumber,
-    Expression<String> cvv,
-    Expression<String> expiryDate,
-    Expression<String> holderName,
-    Expression<String> address,
+    Expression<String>? id,
+    Expression<String>? cardNumber,
+    Expression<String>? cvv,
+    Expression<String>? expiryDate,
+    Expression<String>? holderName,
+    Expression<String>? address,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -687,12 +687,12 @@ class BankCardCompanion extends UpdateCompanion<BankCardData> {
     });
   }
 
-  BankCardCompanion copyWith({Value<String> id,
-    Value<String> cardNumber,
-    Value<String> cvv,
-    Value<String> expiryDate,
-    Value<String> holderName,
-    Value<String> address}) {
+  BankCardCompanion copyWith({Value<String>? id,
+    Value<String>? cardNumber,
+    Value<String>? cvv,
+    Value<String>? expiryDate,
+    Value<String>? holderName,
+    Value<String>? address}) {
     return BankCardCompanion(
       id: id ?? this.id,
       cardNumber: cardNumber ?? this.cardNumber,
@@ -707,22 +707,22 @@ class BankCardCompanion extends UpdateCompanion<BankCardData> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (id.present) {
-      map['id'] = Variable<String>(id.value);
+      map['id'] = Variable<String?>(id.value);
     }
     if (cardNumber.present) {
-      map['card_number'] = Variable<String>(cardNumber.value);
+      map['card_number'] = Variable<String?>(cardNumber.value);
     }
     if (cvv.present) {
-      map['cvv'] = Variable<String>(cvv.value);
+      map['cvv'] = Variable<String?>(cvv.value);
     }
     if (expiryDate.present) {
-      map['expiry_date'] = Variable<String>(expiryDate.value);
+      map['expiry_date'] = Variable<String?>(expiryDate.value);
     }
     if (holderName.present) {
-      map['holder_name'] = Variable<String>(holderName.value);
+      map['holder_name'] = Variable<String?>(holderName.value);
     }
     if (address.present) {
-      map['address'] = Variable<String>(address.value);
+      map['address'] = Variable<String?>(address.value);
     }
     return map;
   }
@@ -740,10 +740,10 @@ class BankCardCompanion extends UpdateCompanion<BankCardData> {
 class $BankCardTable extends BankCard
     with TableInfo<$BankCardTable, BankCardData> {
   final GeneratedDatabase _db;
-  final String _alias;
+  final String? _alias;
   $BankCardTable(this._db, [this._alias]);
   final VerificationMeta _idMeta = const VerificationMeta('id');
-  GeneratedTextColumn _id;
+  GeneratedTextColumn? _id;
   @override
   GeneratedTextColumn get id => _id ??= _constructId();
   GeneratedTextColumn _constructId() {
@@ -756,7 +756,7 @@ class $BankCardTable extends BankCard
   }
 
   final VerificationMeta _cardNumberMeta = const VerificationMeta('cardNumber');
-  GeneratedTextColumn _cardNumber;
+  GeneratedTextColumn? _cardNumber;
   @override
   GeneratedTextColumn get cardNumber => _cardNumber ??= _constructCardNumber();
   GeneratedTextColumn _constructCardNumber() {
@@ -768,7 +768,7 @@ class $BankCardTable extends BankCard
   }
 
   final VerificationMeta _cvvMeta = const VerificationMeta('cvv');
-  GeneratedTextColumn _cvv;
+  GeneratedTextColumn? _cvv;
   @override
   GeneratedTextColumn get cvv => _cvv ??= _constructCvv();
   GeneratedTextColumn _constructCvv() {
@@ -780,7 +780,7 @@ class $BankCardTable extends BankCard
   }
 
   final VerificationMeta _expiryDateMeta = const VerificationMeta('expiryDate');
-  GeneratedTextColumn _expiryDate;
+  GeneratedTextColumn? _expiryDate;
 
   @override
   GeneratedTextColumn get expiryDate => _expiryDate ??= _constructExpiryDate();
@@ -794,7 +794,7 @@ class $BankCardTable extends BankCard
   }
 
   final VerificationMeta _holderNameMeta = const VerificationMeta('holderName');
-  GeneratedTextColumn _holderName;
+  GeneratedTextColumn? _holderName;
 
   @override
   GeneratedTextColumn get holderName => _holderName ??= _constructHolderName();
@@ -808,7 +808,7 @@ class $BankCardTable extends BankCard
   }
 
   final VerificationMeta _addressMeta = const VerificationMeta('address');
-  GeneratedTextColumn _address;
+  GeneratedTextColumn? _address;
 
   @override
   GeneratedTextColumn get address => _address ??= _constructAddress();
@@ -839,19 +839,19 @@ class $BankCardTable extends BankCard
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
     if (data.containsKey('card_number')) {
       context.handle(
           _cardNumberMeta,
           cardNumber.isAcceptableOrUnknown(
-              data['card_number'], _cardNumberMeta));
+              data['card_number']!, _cardNumberMeta));
     } else if (isInserting) {
       context.missing(_cardNumberMeta);
     }
     if (data.containsKey('cvv')) {
       context.handle(
-          _cvvMeta, cvv.isAcceptableOrUnknown(data['cvv'], _cvvMeta));
+          _cvvMeta, cvv.isAcceptableOrUnknown(data['cvv']!, _cvvMeta));
     } else if (isInserting) {
       context.missing(_cvvMeta);
     }
@@ -859,17 +859,17 @@ class $BankCardTable extends BankCard
       context.handle(
           _expiryDateMeta,
           expiryDate.isAcceptableOrUnknown(
-              data['expiry_date'], _expiryDateMeta));
+              data['expiry_date']!, _expiryDateMeta));
     }
     if (data.containsKey('holder_name')) {
       context.handle(
           _holderNameMeta,
           holderName.isAcceptableOrUnknown(
-              data['holder_name'], _holderNameMeta));
+              data['holder_name']!, _holderNameMeta));
     }
     if (data.containsKey('address')) {
       context.handle(_addressMeta,
-          address.isAcceptableOrUnknown(data['address'], _addressMeta));
+          address.isAcceptableOrUnknown(data['address']!, _addressMeta));
     }
     return context;
   }
@@ -877,7 +877,7 @@ class $BankCardTable extends BankCard
   @override
   Set<GeneratedColumn> get $primaryKey => <GeneratedColumn>{};
   @override
-  BankCardData map(Map<String, dynamic> data, {String tablePrefix}) {
+  BankCardData map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
     return BankCardData.fromData(data, _db, prefix: effectivePrefix);
   }
@@ -889,11 +889,11 @@ class $BankCardTable extends BankCard
 }
 
 class OtherData extends DataClass implements Insertable<OtherData> {
-  final String id;
-  final String data;
-  OtherData({@required this.id, @required this.data});
+  final String? id;
+  final String? data;
+  OtherData({required this.id, required this.data});
   factory OtherData.fromData(Map<String, dynamic> data, GeneratedDatabase db,
-      {String prefix}) {
+      {String? prefix}) {
     final effectivePrefix = prefix ?? '';
     final stringType = db.typeSystem.forDartType<String>();
     return OtherData(
@@ -905,10 +905,10 @@ class OtherData extends DataClass implements Insertable<OtherData> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (!nullToAbsent || id != null) {
-      map['id'] = Variable<String>(id);
+      map['id'] = Variable<String?>(id);
     }
     if (!nullToAbsent || data != null) {
-      map['data'] = Variable<String>(data);
+      map['data'] = Variable<String?>(data);
     }
     return map;
   }
@@ -921,7 +921,7 @@ class OtherData extends DataClass implements Insertable<OtherData> {
   }
 
   factory OtherData.fromJson(Map<String, dynamic> json,
-      {ValueSerializer serializer}) {
+      {ValueSerializer? serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return OtherData(
       id: serializer.fromJson<String>(json['id']),
@@ -929,15 +929,15 @@ class OtherData extends DataClass implements Insertable<OtherData> {
     );
   }
   @override
-  Map<String, dynamic> toJson({ValueSerializer serializer}) {
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'id': serializer.toJson<String>(id),
-      'data': serializer.toJson<String>(data),
+      'id': serializer.toJson<String?>(id),
+      'data': serializer.toJson<String?>(data),
     };
   }
 
-  OtherData copyWith({String id, String data}) =>
+  OtherData copyWith({String? id, String? data}) =>
       OtherData(
         id: id ?? this.id,
         data: data ?? this.data,
@@ -959,19 +959,19 @@ class OtherData extends DataClass implements Insertable<OtherData> {
 }
 
 class OtherCompanion extends UpdateCompanion<OtherData> {
-  final Value<String> id;
-  final Value<String> data;
+  final Value<String?> id;
+  final Value<String?> data;
   const OtherCompanion({
     this.id = const Value.absent(),
     this.data = const Value.absent(),
   });
   OtherCompanion.insert({
     this.id = const Value.absent(),
-    @required String data,
+    required String data,
   }) : data = Value(data);
   static Insertable<OtherData> custom({
-    Expression<String> id,
-    Expression<String> data,
+    Expression<String>? id,
+    Expression<String>? data,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -979,7 +979,7 @@ class OtherCompanion extends UpdateCompanion<OtherData> {
     });
   }
 
-  OtherCompanion copyWith({Value<String> id, Value<String> data}) {
+  OtherCompanion copyWith({Value<String>? id, Value<String>? data}) {
     return OtherCompanion(
       id: id ?? this.id,
       data: data ?? this.data,
@@ -990,10 +990,10 @@ class OtherCompanion extends UpdateCompanion<OtherData> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (id.present) {
-      map['id'] = Variable<String>(id.value);
+      map['id'] = Variable<String?>(id.value);
     }
     if (data.present) {
-      map['data'] = Variable<String>(data.value);
+      map['data'] = Variable<String?>(data.value);
     }
     return map;
   }
@@ -1010,10 +1010,10 @@ class OtherCompanion extends UpdateCompanion<OtherData> {
 
 class $OtherTable extends Other with TableInfo<$OtherTable, OtherData> {
   final GeneratedDatabase _db;
-  final String _alias;
+  final String? _alias;
   $OtherTable(this._db, [this._alias]);
   final VerificationMeta _idMeta = const VerificationMeta('id');
-  GeneratedTextColumn _id;
+  GeneratedTextColumn? _id;
   @override
   GeneratedTextColumn get id => _id ??= _constructId();
   GeneratedTextColumn _constructId() {
@@ -1026,7 +1026,7 @@ class $OtherTable extends Other with TableInfo<$OtherTable, OtherData> {
   }
 
   final VerificationMeta _dataMeta = const VerificationMeta('data');
-  GeneratedTextColumn _data;
+  GeneratedTextColumn? _data;
   @override
   GeneratedTextColumn get data => _data ??= _constructData();
   GeneratedTextColumn _constructData() {
@@ -1051,11 +1051,11 @@ class $OtherTable extends Other with TableInfo<$OtherTable, OtherData> {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
     if (data.containsKey('data')) {
       context.handle(
-          _dataMeta, this.data.isAcceptableOrUnknown(data['data'], _dataMeta));
+          _dataMeta, this.data.isAcceptableOrUnknown(data['data']!, _dataMeta));
     } else if (isInserting) {
       context.missing(_dataMeta);
     }
@@ -1065,7 +1065,7 @@ class $OtherTable extends Other with TableInfo<$OtherTable, OtherData> {
   @override
   Set<GeneratedColumn> get $primaryKey => <GeneratedColumn>{};
   @override
-  OtherData map(Map<String, dynamic> data, {String tablePrefix}) {
+  OtherData map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
     return OtherData.fromData(data, _db, prefix: effectivePrefix);
   }
@@ -1078,13 +1078,13 @@ class $OtherTable extends Other with TableInfo<$OtherTable, OtherData> {
 
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(SqlTypeSystem.defaultInstance, e);
-  $UIDAITable _uidai;
+  $UIDAITable? _uidai;
   $UIDAITable get uidai => _uidai ??= $UIDAITable(this);
-  $PANCardTable _pANCard;
+  $PANCardTable? _pANCard;
   $PANCardTable get pANCard => _pANCard ??= $PANCardTable(this);
-  $BankCardTable _bankCard;
+  $BankCardTable? _bankCard;
   $BankCardTable get bankCard => _bankCard ??= $BankCardTable(this);
-  $OtherTable _other;
+  $OtherTable? _other;
   $OtherTable get other => _other ??= $OtherTable(this);
   @override
   Iterable<TableInfo> get allTables => allSchemaEntities.whereType<TableInfo>();

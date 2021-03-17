@@ -2,10 +2,10 @@ import 'package:moor/moor.dart';
 import 'package:paster/models/data.dart';
 
 class DataProvider{
-  AppDatabase _db;
-  Stream<List<DataClass>> _items;
+  late AppDatabase _db;
+  Stream<List<DataClass>>? _items;
 
-  Stream<List<DataClass>> get data => _items;
+  Stream<List<DataClass>>? get data => _items;
 
   DataProvider() {
     _db = AppDatabase();

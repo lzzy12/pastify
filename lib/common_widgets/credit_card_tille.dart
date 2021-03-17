@@ -19,11 +19,11 @@ class CreditCardTile extends DataTile {
       child: ExpansionTile(
         leading: Image.asset(
           CreditCardUtils.getIconFromCardNumber(
-            card.cardNumber,
+            card.cardNumber!,
           ),
         ),
         title: Text(
-          card.cardNumber,
+          card.cardNumber!,
           softWrap: false,
           overflow: TextOverflow.ellipsis,
         ),
@@ -31,7 +31,7 @@ class CreditCardTile extends DataTile {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              card.cvv.isNotEmpty
+              card.cvv!.isNotEmpty
                   ? Container(
                       margin: EdgeInsets.all(Sizes.margin),
                       child: Row(
@@ -41,34 +41,34 @@ class CreditCardTile extends DataTile {
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                           Text(
-                            card.cvv,
+                            card.cvv!,
                           ),
                           CopyToClipBoardWidget(card.cvv)
                         ],
                       ),
                     )
                   : SizedBox(),
-              card.expiryDate.isNotEmpty
+              card.expiryDate!.isNotEmpty
                   ? Container(
                       margin: EdgeInsets.all(Sizes.margin),
                       child: Row(
                         children: <Widget>[
                           Text(
-                            s.expiringOnText + ': ',
+                            s!.expiringOnText + ': ',
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                           Text(
-                            card.expiryDate,
+                            card.expiryDate!,
                           ),
                           CopyToClipBoardWidget(card.expiryDate)
                         ],
                       ),
                     )
                   : SizedBox(),
-              if (card.holderName != null && card.holderName.isNotEmpty)
+              if (card.holderName != null && card.holderName!.isNotEmpty)
                 Row(children: <Widget>[
                   Text(
-                    s.cardHolderName,
+                    s!.cardHolderName,
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                   CopyToClipBoardWidget(card.holderName),

@@ -28,7 +28,7 @@ class _AddDataBottomModalSheetState extends State<AddDataBottomModalSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final s = S.of(context);
+    final s = S.of(context)!;
     final List<String> _optionStrings = [
       s.TYPE_UIDAI,
       s.TYPE_CREDIT_CARD,

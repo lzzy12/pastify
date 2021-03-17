@@ -68,9 +68,9 @@ class CreditCardUtils {
     return getIconFromCardType(getCardTypeFromNumber(cardNumber));
   }
 
-  static String verifyLuhnCard(String input, context) {
+  static String? verifyLuhnCard(String input, context) {
     if (input != null && input.isEmpty)
-      return S.of(context).noCardNumberValidation;
+      return S.of(context)!.noCardNumberValidation;
     int sum = 0;
     final cardNumber = getCleanedNumber(input);
     for (int i = 0; i < cardNumber.length; i++) {
@@ -81,7 +81,7 @@ class CreditCardUtils {
       if (digit > 9) digit = digit - 9;
       sum += digit;
     }
-    return sum % 10 == 0 ? null : S.of(context).cardInvalid;
+    return sum % 10 == 0 ? null : S.of(context)!.cardInvalid;
   }
 }
 

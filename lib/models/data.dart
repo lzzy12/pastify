@@ -9,35 +9,35 @@ part 'data.g.dart';
 enum SupportedTypes { uidai, pan, card, others }
 
 class Data extends Table {
-  TextColumn get id => text().clientDefault(() => Uuid().v4())();
+  TextColumn? get id => text().clientDefault(() => Uuid().v4())();
 }
 
 class UIDAI extends Data {
-  TextColumn get uidaiNumber => text().named('uidai')();
+  TextColumn? get uidaiNumber => text().named('uidai')();
 
-  TextColumn get name => text()();
+  TextColumn? get name => text()();
 }
 
 class PANCard extends Data {
-  TextColumn get panCard => text().named('pan_card_number')();
+  TextColumn? get panCard => text().named('pan_card_number')();
 
-  TextColumn get holderName => text().named('holder_name')();
+  TextColumn? get holderName => text().named('holder_name')();
 }
 
 class BankCard extends Data {
-  TextColumn get cardNumber => text().named('card_number')();
+  TextColumn? get cardNumber => text().named('card_number')();
 
-  TextColumn get cvv => text()();
+  TextColumn? get cvv => text()();
 
-  TextColumn get expiryDate => text().nullable().named('expiry_date')();
+  TextColumn? get expiryDate => text().nullable().named('expiry_date')();
 
-  TextColumn get holderName => text().nullable().named('holder_name')();
+  TextColumn? get holderName => text().nullable().named('holder_name')();
 
-  TextColumn get address => text().nullable().named('address')();
+  TextColumn? get address => text().nullable().named('address')();
 }
 
 class Other extends Data {
-  TextColumn get data => text()();
+  TextColumn? get data => text()();
 }
 
 LazyDatabase _openConnection() {
@@ -60,7 +60,7 @@ class AppDatabase extends _$AppDatabase {
 
   int get schemaVersion => 1;
 
-  T _getStatement<T>(UpdateCompanion data, T statement(TableInfo table)) {
+  T _getStatement<T>(UpdateCompanion? data, T statement(TableInfo table)) {
     if (data is UIDAICompanion) return statement(uidai);
     if (data is PANCardCompanion) return statement(pANCard);
     if (data is BankCardCompanion) return statement(bankCard);
@@ -76,8 +76,8 @@ class AppDatabase extends _$AppDatabase {
     return _getStatement<UpdateStatement>(data, update).replace(data);
   }
 
-  Future<void> deleteData(UpdateCompanion data) {
-    var table;
+  Future<void> deleteData(UpdateCompanion? data) {
+    late var table;
     if (data is UIDAICompanion) table = uidai;
     if (data is PANCardCompanion) table = pANCard;
     if (data is BankCardCompanion) table = bankCard;
